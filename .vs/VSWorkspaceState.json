@@ -4,8 +4,8 @@
     "\\backend",
     "\\backend\\api",
     "\\backend\\api\\routes",
-    "\\extension\\images"
+    "\\backend\\api\\routes\\models"
   ],
-  "SelectedNode": "\\backend\\app.js",
+  "SelectedNode": "\\backend",
   "PreviewInSolutionExplorer": false
 }
