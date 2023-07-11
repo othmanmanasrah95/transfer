@@ -1,4 +1,11 @@
 {
-  "ExpandedNodes": [],
+  "ExpandedNodes": [
+    "",
+    "\\backend",
+    "\\backend\\api",
+    "\\backend\\api\\routes",
+    "\\extension\\images"
+  ],
+  "SelectedNode": "\\backend\\app.js",
   "PreviewInSolutionExplorer": false
 }
