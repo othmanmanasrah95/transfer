@@ -1,11 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\backend",
-    "\\backend\\api",
-    "\\backend\\api\\routes",
-    "\\backend\\api\\routes\\models"
+    "\\backend"
   ],
-  "SelectedNode": "\\backend",
+  "SelectedNode": "\\backend\\package.json",
   "PreviewInSolutionExplorer": false
 }
