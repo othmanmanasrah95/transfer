@@ -1,9 +1,21 @@
 const mongoose = require('mongoose');
 
-const contentSchema= mongoose.Schema({
-    _id : String,
-    content_data : String,
-    
+const promptSchema = new mongoose.Schema({
+  prompt: String
 });
 
-module.exports = mongoose.model('Content', contentSchema);
+const contentSchema = new mongoose.Schema({
+  _id: {
+    type: String,
+    required: true
+  },
+  content_data: {
+    type: String,
+    required: true
+  },
+  prompts: [{prompt_data :{type :String}}]
+});
+
+const Content = mongoose.model('Content', contentSchema);
+
+module.exports = Content;

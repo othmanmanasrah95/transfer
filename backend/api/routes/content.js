@@ -1,50 +1,48 @@
 const express = require('express');
-const req = require('express/lib/request');
-const res = require('express/lib/response');
-const mongoose = require('mongoose');
 const router = express.Router();
-const Content = require('./models/content')
+const Content = require('./models/content');
 
 router.get('/', (req, res, next) => {
-    res.status(200).json({
-        message : 'Handling GET requests to /content'
-    });
+  res.status(200).json({
+    message: 'Content data fetched',
+  });
 });
 
 router.post('/', (req, res, next) => {
-    const data= {
-        content_id : req.body.content_id,
-        content_data: req.body.content_data,
-    };
+  const contentData = {
+    content_id: req.body.content_id,
+    content_data: req.body.content_data,
+  };
 
-    const content = new Content({
-        _id : req.body.content_id,
-        content_data : req.body.content_data
-    });
-    content.save()
-    .then(result => {
-        console.log(result);
+  // Create the content document
+  const content = new Content({
+    _id: contentData.content_id,
+    content_data: contentData.content_data,
+    prompts : []
+  });
+
+  // Save the content document
+  content.save()
+    .then(() => {
+      res.status(201).json({
+        message: 'Content created',
+        data: contentData,
+      });
     })
-    .catch(err => console.log(err));
-
-    res.status(201).json({
-        message : 'Handling POST requests to /content',
-        data : data
-      
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({
+        error: err.message,
+      });
     });
-    console.log(data)
 });
 
 router.get('/:contentId', (req, res, next) => {
-    const id = req.params.contentId;
+  const id = req.params.contentId;
 
-    res.status(200).json({
-        message : 'Handling GET requests to /content'
-    });
+  res.status(200).json({
+    message: `Content ID: ${id}`,
+  });
 });
 
-
-
-
-
-module.exports = router
+module.exports = router;

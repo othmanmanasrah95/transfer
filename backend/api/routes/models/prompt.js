@@ -1,8 +1,14 @@
 const mongoose = require('mongoose');
 
-const contentSchema= mongoose.Schema({
-    _id : String,
-    prompt_data : String
+const promptSchema = new mongoose.Schema({
+ 
+  prompt_data: {
+    type: String,
+    required: true
+  },
+  
 });
 
-module.exports = mongoose.model('Content', contentSchema); 
+const Prompt = mongoose.model('Prompt', promptSchema);
+
+module.exports = Prompt;
