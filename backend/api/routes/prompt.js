@@ -55,8 +55,7 @@ router.post('/', (req, res, next) => {
         .then((response) => response.json())
         .then((data) => {
           res.status(201).json({
-            message: 'is it work',
-            data: data,
+           data:data
           });
           console.log(data)
         })

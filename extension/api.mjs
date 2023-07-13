@@ -25,26 +25,28 @@ export function sendContentToApi(content_id,received_content) {
 
   }
 
-  export function sendPromptToApi(content_id,received_prompt) {
+  export async function sendPromptToApi(content_id, received_prompt) {
     const promptData = {
-        prompt_data: received_prompt,
-        content_id : content_id 
-    }
-    fetch("http://localhost:3000/prompt/", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(promptData),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        appi.push(data['data'])
-      })
-      .catch(error => {
-        console.error(error);
+      prompt_data: received_prompt,
+      content_id: content_id,
+    };
+  
+    try {
+      const response = await fetch("http://localhost:3000/prompt/", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(promptData),
       });
   
+      const data = await response.json();
+      console.log(data["data"].data);
+      return data["data"].data;
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
+  }
+  
 

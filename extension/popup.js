@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var contentContainer = document.getElementById('content-container');
   var promptText= document.getElementById('prompt_text');
   var submitButton = document.getElementById("submit_button");
+  var responseText = document.getElementById("answer-container");  
 
   var contentData;
   var contentId;
@@ -34,20 +35,35 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.storage.sync.set({ 'scrapingEnabled': isScrapingEnabled });
   });
 
-  submitButton.addEventListener("click", function () {
+  submitButton.addEventListener("click",async function () {
     console.log("Iam here");
     var enteredPrompt = promptText.value;
     console.log(enteredPrompt);
-    sendPromptToApi(contentId, enteredPrompt);
+    try {
+    var response= await sendPromptToApi(contentId,enteredPrompt);
+    console.log(response + " I am the response" );
+    responseText.textContent=response;}
+    catch (error) {
+    console.error(error);
+  }
   });
 
-  promptText.addEventListener("keydown",function(e){
-    if(e.code=="Enter"){
-      let enteredPrompt=e.target.value;
+  promptText.addEventListener("keydown", async function(e) {
+    if (e.code == "Enter") {
+      let enteredPrompt = e.target.value;
       console.log(enteredPrompt);
-      sendPromptToApi(contentId,enteredPrompt);
-     }
+      
+      try {
+        var response = await sendPromptToApi(contentId, enteredPrompt);
+        console.log(response + " I am the response");
+        responseText.textContent = response;
+      } catch (error) {
+        console.error(error);
+        // Handle any errors that occurred during the API call
+      }
+    }
   });
+  
 
   //this function works when the checkbox is enabled, it will display the content and send an action to the background 
   function enableScraping() {
