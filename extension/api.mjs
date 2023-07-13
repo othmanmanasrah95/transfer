@@ -1,4 +1,5 @@
 const authToken = "d7110028a6e7b225e4b9ebe31bdd091c"; 
+export const appi = [];
 export function sendContentToApi(content_id,received_content) {
   const contentData = {
     content_id:content_id,
@@ -39,6 +40,7 @@ export function sendContentToApi(content_id,received_content) {
       .then(response => response.json())
       .then(data => {
         console.log(data);
+        appi.push(data['data'])
       })
       .catch(error => {
         console.error(error);

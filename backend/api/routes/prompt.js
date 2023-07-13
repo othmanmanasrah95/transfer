@@ -3,6 +3,7 @@ const router = express.Router();
 const Prompt = require('./models/prompt');
 const Content = require('./models/content');
 const { default: mongoose } = require('mongoose');
+const { json } = require('body-parser');
 
 router.get('/', (req, res, next) => {
   res.status(200).json({
@@ -38,10 +39,32 @@ router.post('/', (req, res, next) => {
         });
     })
     .then(() => {
-      res.status(201).json({
-        message: 'Prompt created and associated with content',
-        data: promptData,
-      });
+      const endpoint = 'http://localhost:5000/test'; // Replace with the actual endpoint URL
+
+      const sendprompt = {
+        prompt : promptData["prompt_data"]
+      }
+      console.log(sendprompt);
+      fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body:  JSON.stringify(sendprompt) ,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          res.status(201).json({
+            message: 'is it work',
+            data: data,
+          });
+          console.log(data)
+        })
+        .catch((error) => {
+          console.error(error);
+          // Handle any errors
+        });
+     
     })
     .catch((err) => {
       console.error(err);
@@ -50,7 +73,12 @@ router.post('/', (req, res, next) => {
       });
     });
 
-  
+    ///////////////////////////////////
+
+    
+
+
+
 });
 
 module.exports = router;

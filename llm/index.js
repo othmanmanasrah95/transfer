@@ -15,6 +15,7 @@ const openai= new OpenAIApi(configuration);
 app.post("/test",async(req,res) => {
  try{
     const { prompt } = req.body;
+    console.log(prompt);
     const response = await openai.createCompletion({
         model:"text-davinci-003",
         prompt:` ${prompt}`,
@@ -35,7 +36,7 @@ app.post("/test",async(req,res) => {
     return res.status(400).json({
         success:false,
         error:e.response
-        ? e.response.data : "There was an issue in the server",
+        ? e.response.data : e.message,
  });
 }  
 });
