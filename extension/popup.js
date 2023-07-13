@@ -36,12 +36,10 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   submitButton.addEventListener("click",async function () {
-    console.log("Iam here");
     var enteredPrompt = promptText.value;
-    console.log(enteredPrompt);
+    
     try {
     var response= await sendPromptToApi(contentId,enteredPrompt);
-    console.log(response + " I am the response" );
     responseText.textContent=response;}
     catch (error) {
     console.error(error);
@@ -51,11 +49,10 @@ document.addEventListener('DOMContentLoaded', function() {
   promptText.addEventListener("keydown", async function(e) {
     if (e.code == "Enter") {
       let enteredPrompt = e.target.value;
-      console.log(enteredPrompt);
+      
       
       try {
         var response = await sendPromptToApi(contentId, enteredPrompt);
-        console.log(response + " I am the response");
         responseText.textContent = response;
       } catch (error) {
         console.error(error);

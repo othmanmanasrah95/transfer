@@ -17,7 +17,7 @@ export function sendContentToApi(content_id,received_content) {
   })
     .then(response => response.json()) 
     .then(data => {
-      console.log(data);
+      //** */
     })
     .catch(error => {
       console.error(error);
@@ -41,7 +41,6 @@ export function sendContentToApi(content_id,received_content) {
       });
   
       const data = await response.json();
-      console.log(data["data"].data);
       return data["data"].data;
     } catch (error) {
       console.error(error);

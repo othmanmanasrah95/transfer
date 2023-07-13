@@ -15,7 +15,6 @@ const openai= new OpenAIApi(configuration);
 app.post("/test",async(req,res) => {
  try{
     const { prompt } = req.body;
-    console.log(prompt);
     const response = await openai.createCompletion({
         model:"text-davinci-003",
         prompt:` ${prompt}`,
