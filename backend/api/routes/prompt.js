@@ -25,11 +25,11 @@ router.post('/', (req, res, next) => {
 });
 
 {
-  function communicatingWithLLM(promptData, res){
+  function communicatingWithLLM(promptData, content_data, res){
     const endpoint = 'http://localhost:5000/test'; 
-  
     const sendprompt = {
-      prompt : promptData["prompt_data"]
+      prompt : promptData["prompt_data"],
+      content : content_data
     }
     fetch(endpoint, {
       method: 'POST',
@@ -68,13 +68,14 @@ router.post('/', (req, res, next) => {
         if (!content) {
           throw new Error('Content not found');
         }
+        
         // Associate the prompt with the content
         content.prompts.push(createdPrompt);
         return content.save();
       });
     })
-    .then(() => {
-      communicatingWithLLM(promptData, res);
+    .then((content) => {
+      communicatingWithLLM(promptData, content.content_data, res);
     })
     .catch((err) => {
       console.error(err);
