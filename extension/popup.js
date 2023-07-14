@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     try {
     var response= await sendPromptToApi(contentId,enteredPrompt);
+    promptText.value = '';
     responseText.textContent=response;}
     catch (error) {
     console.error(error);
@@ -49,10 +50,9 @@ document.addEventListener('DOMContentLoaded', function() {
   promptText.addEventListener("keydown", async function(e) {
     if (e.code == "Enter") {
       let enteredPrompt = e.target.value;
-      
-      
       try {
         var response = await sendPromptToApi(contentId, enteredPrompt);
+        promptText.value = '';
         responseText.textContent = response;
       } catch (error) {
         console.error(error);
