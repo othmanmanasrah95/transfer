@@ -14,20 +14,20 @@ const openai= new OpenAIApi(configuration);
 
 app.post("/test",async(req,res) => {
  try{
-    const { prompt } = req.body;
-    const response = await openai.createCompletion({
-        model:"text-davinci-003",
-        prompt:` ${prompt}`,
-        max_tokens: 64,
-        temperature: 0,
-        top_p: 1.0,
-        frequency_penalty: 0.0,
-        presence_penalty: 0.0,
-
-    });
+    const  prompt  = req.body.prompt;
+    const content = req.body.content;
+    const completion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [
+            {
+              "role": "user",
+              "content": `answer this question ${prompt} based on this content ${content}`
+            }
+          ],
+      });
 
     return res.status(200).json({
-       data: response.data.choices[0].text,
+       data: completion.data.choices[0].message.content
     });
 
  } catch(e){
@@ -40,5 +40,3 @@ app.post("/test",async(req,res) => {
 });
 
 const port = process.env.PORT || 5000;
-
-app.listen(port, () => console.log(`Server listening on port ${port}`));
