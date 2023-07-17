@@ -44,12 +44,17 @@ app.post("/test", async (req, res) => {
     const content = req.body.content;
     const chunks = chunkContent(content);
     const messages = [];
-    
+    console.log(chunks);
+    console.log(prompt);
     for (const chunk of chunks) {
       messages.push(
         {
-          role: "user",
-          content: `answer this question ${prompt} based on this content ${chunk}`,
+          "role": "system",
+          "content": `${prompt}`
+        },
+        {
+          "role": "user",
+          "content": `based on this content ${chunk}`,
         }
       );
 
