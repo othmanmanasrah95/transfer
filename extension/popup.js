@@ -40,8 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     try {
     var response= await sendPromptToApi(contentId,enteredPrompt);
+    responseText.textContent=response;
     promptText.value = '';
-    responseText.textContent=response;}
+  }
     catch (error) {
     console.error(error);
   }
@@ -49,20 +50,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
   promptText.addEventListener("keydown", async function(e) {
     if (e.code == "Enter") {
-      let enteredPrompt = e.target.value;
+      var enteredPrompt = promptText.value;
       try {
         var response = await sendPromptToApi(contentId, enteredPrompt);
-        promptText.value = '';
         responseText.textContent = response;
+        promptText.value = '';
+
       } catch (error) {
         console.error(error);
-        // Handle any errors that occurred during the API call
       }
     }
   });
   
 
-  //this function works when the checkbox is enabled, it will display the content and send an action to the background 
   function enableScraping() {
     chrome.runtime.sendMessage({ action: 'get_content' }, function(response) {
 

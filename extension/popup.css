@@ -1,6 +1,5 @@
 body {
   background-color: #f1f1f1;
-  font-family: Arial, sans-serif;
   margin: 20px;
 }
 
@@ -85,9 +84,12 @@ input[type="text"] {
   background-color: #555;
 }
 
-#content-container {
+.content-container,.answer-container {
   margin-top: 20px;
   background-color: #f9f9f9;
   padding: 10px;
   border-radius: 5px;
+  font-family:cursive;
+  font-weight: bolder;
+
 }
