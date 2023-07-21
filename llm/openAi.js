@@ -10,86 +10,51 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-function chunkContent(content) {
-  const maxChunkLength = 4096; // Maximum chunk length for GPT-3.5-turbo
+async function generateResponse(prompt, content) {
+  const maxChunkLength = 220; 
+  const messages = [
+    {
+      role: "user",
+      content: `answer this question: ${prompt} based on this content `,
+    },
+  ];
 
-  if (content.length <= maxChunkLength) {
-    return [content];
-  }
+  let startIndex = 0;
+  let endIndex = 0;
+  let chunk = "";
 
-  const chunks = [];
-  let currentChunk = "";
+  while (startIndex < content.length) {
+    endIndex = Math.min(startIndex + maxChunkLength, content.length);
+    chunk = content.slice(startIndex, endIndex);
+    messages[messages.length - 1].content += chunk;
 
-  const sentences = content.split("."); // Split content by sentences
-
-  for (const sentence of sentences) {
-    if (currentChunk.length + sentence.length <= maxChunkLength) {
-      currentChunk += sentence + ".";
-    } else {
-      chunks.push(currentChunk);
-      currentChunk = sentence + ".";
-    }
-  }
-
-  if (currentChunk) {
-    chunks.push(currentChunk);
-  }
-
-  return chunks;
-}
-
-app.post("/test", async (req, res) => {
-  try {
-    const prompt = req.body.prompt;
-    const content = req.body.content;
-    const chunks = chunkContent(content);
-    const messages = [];
-    console.log(chunks);
-    console.log(prompt);
-    for (const chunk of chunks) {
-      messages.push(
-        {
-          "role": "system",
-          "content": `${prompt}`
-        },
-        {
-          "role": "user",
-          "content": `based on this content ${chunk}`,
-        }
-      );
-
-      // Check the total context length before making an API call
-      const totalContextLength = messages.reduce(
-        (length, message) => length + message.content.length,
-        0
-      );
-
-      if (totalContextLength > 4096) {
-        // If the total context length exceeds the maximum, remove the last message
-        messages.pop();
-
-        // Make the API call with the current messages
-        const completion = await openai.createChatCompletion({
-          model: "gpt-3.5-turbo",
-          messages,
-        });
-
-        const answer = completion.data.choices[0].message.content;
-        console.log(answer);
-        return res.status(200).json({
-          data: answer,
-        });
-      }
-    }
-
-    // If the total context length is within the limit, make the final API call
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages,
     });
 
     const answer = completion.data.choices[0].message.content;
+
+    if (completion.data.choices[0].finish_reason === "stop") {
+      return answer;
+    }
+
+    startIndex = endIndex;
+    messages[messages.length - 1].content = answer.slice(prompt.length + 26); 
+  }
+
+  return "Response generation incomplete.";
+}
+
+app.post("/test", async (req, res) => {
+  try {
+    const prompt = req.body.prompt;
+    const content = req.body.content;
+    console.log(prompt);
+
+    const answer = await generateResponse(prompt, content);
     console.log(answer);
+
     return res.status(200).json({
       data: answer,
     });
