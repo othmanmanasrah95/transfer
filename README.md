@@ -1,8 +1,8 @@
 # Snake
-Strategic Neural Analysis and Knowledge Enhancement 
+Strategic Neural Analysis and Knowledge Enhancement. 
 
 **Description:** 
-a chrome extension that extracts text from web pages,and answer the user questions depending on the content exists in the page visited by help of large language model.
+a chrome extension that extracts text from web pages, and answer the user questions depending on the content exists in the page visited by help of large language model.
 
 
 ## Extension:
