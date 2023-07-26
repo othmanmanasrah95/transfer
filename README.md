@@ -1,5 +1,6 @@
 # Snake
 Strategic Neural Analysis and Knowledge Enhancement. 
+Initialize a neural network with pre-trained weights and let all weights be adjusted with the new training.
 
 **Description:** 
 a chrome extension that extracts text from web pages, and answer the user questions depending on the content exists in the page visited by help of large language model.
