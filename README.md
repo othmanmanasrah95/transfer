@@ -9,7 +9,7 @@ a chrome extension that extracts text from web pages,and answer the user questio
 
 Creating a labeled checkbox to ensure users are aware of data scraping.
 
-Creating the necessary layout of the follwoing components:
+Creating the necessary logic functions and layout of the follwoing components:
 
 - Prompt: creating a post request API that takes input from the user to the backend side with the content related to.
 
