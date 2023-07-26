@@ -27,4 +27,9 @@ Implement the openAI model to get answer for question related to the the context
 - Customizing the prompt and openAi parameters.
 - Dividing the content into chunks that fits the maximum tokens for the model.
 - Testing the actual and expected result.
-  
+
+Disadvantages : 
+- Not an open-source or commercial use for confidential data.
+- Sometimes responses with general answers that are not specific for the context. (Depends on the prompt Customization).
+
+
