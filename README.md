@@ -31,6 +31,6 @@ Implement the openAI model to get answer for question related to the the context
 
 Disadvantages : 
 - Not an open-source or commercial use for confidential data.
-- Sometimes responses with general answers that are not specific for the context. (Depends on the prompt customization).
+- Sometimes responses with general answers that are not specific for the context. (depends on the prompt format).
 
 
