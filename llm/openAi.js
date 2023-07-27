@@ -14,7 +14,7 @@ async function generateResponse(prompt, content) {
   const maxChunkLength = 220; 
   const messages = [
     {
-      role: "user",
+      role: "user", 
       content: `answer this question: ${prompt} based on this content `,
     },
   ];
