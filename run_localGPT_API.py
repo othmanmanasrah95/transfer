@@ -150,11 +150,14 @@ def load_model(device_type, model_id, model_basename=None):
 # for HF models
 # model_id = "TheBloke/vicuna-7B-1.1-HF"
 # model_id = "TheBloke/Wizard-Vicuna-7B-Uncensored-HF"
-# model_id = "TheBloke/guanaco-7B-HF"
+# model_id = "TheBloke/wizardLM-7B-HF"
+model_id = "TheBloke/guanaco-7B-HF"
 # model_id = 'NousResearch/Nous-Hermes-13b' # Requires ~ 23GB VRAM.
 # Using STransformers alongside will 100% create OOM on 24GB cards.
-# LLM = load_model(device_type=DEVICE_TYPE, model_id=model_id)
 
+LLM = load_model(device_type=DEVICE_TYPE, model_id=model_id)
+#model_id = "TheBloke/Llama-2-7B-Chat-GGML"
+#model_basename = "llama-2-7b-chat.ggmlv3.q4_0.bin"
 # for GPTQ (quantized) models
 # model_id = "TheBloke/Nous-Hermes-13B-GPTQ"
 # model_basename = "nous-hermes-13b-GPTQ-4bit-128g.no-act.order"
@@ -163,9 +166,11 @@ def load_model(device_type, model_id, model_basename=None):
 # Requires ~21GB VRAM. Using STransformers alongside can potentially create OOM on 24GB cards.
 # model_id = "TheBloke/wizardLM-7B-GPTQ"
 # model_basename = "wizardLM-7B-GPTQ-4bit.compat.no-act-order.safetensors"
-model_id = "TheBloke/WizardLM-7B-uncensored-GPTQ"
-model_basename = "WizardLM-7B-uncensored-GPTQ-4bit-128g.compat.no-act-order.safetensors"
-LLM = load_model(device_type=DEVICE_TYPE, model_id=model_id, model_basename=model_basename)
+# model_id = "TheBloke/WizardLM-7B-uncensored-GPTQ"
+# model_basename = "WizardLM-7B-uncensored-GPTQ-4bit-128g.compat.no-act-order.safetensors"
+# model_id = "TheBloke/Llama-2-7B-Chat-GGML"
+# model_basename = "llama-2-7b-chat.ggmlv3.q4_0.bin"
+# LLM = load_model(device_type=DEVICE_TYPE, model_id=model_id, model_basename=model_basename)
 
 QA = RetrievalQA.from_chain_type(
     llm=LLM, chain_type="stuff", retriever=RETRIEVER, return_source_documents=SHOW_SOURCES
@@ -244,7 +249,7 @@ def run_ingest_route():
 @app.route("/api/prompt_route", methods=["GET", "POST"])
 def prompt_route():
     global QA
-    user_prompt = request.form.get("user_prompt")
+    user_prompt = request.form.get("prompt")
     if user_prompt:
         # print(f'User Prompt: {user_prompt}')
         # Get the answer from the chain
@@ -271,4 +276,4 @@ if __name__ == "__main__":
     logging.basicConfig(
         format="%(asctime)s - %(levelname)s - %(filename)s:%(lineno)s - %(message)s", level=logging.INFO
     )
-    app.run(debug=False, port=5110)
+    app.run(debug=True, port=5110)
