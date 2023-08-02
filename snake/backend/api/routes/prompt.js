@@ -21,7 +21,6 @@ router.post('/', (req, res, next) => {
     content_id: req.body.content_id,
   };
   savePrompt( promptData, res);
-
 });
 
 {
