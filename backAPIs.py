@@ -109,10 +109,11 @@ def get_prompt_and_content():
             'prompt': prompt_data,
             'content': content_data,
         }
+        
         pdf_file_path = os.path.join('SOURCE_DOCUMENTS', 'content_data.pdf')
         pdfkit.from_string(content_data, pdf_file_path)
         run_ingest_route()
-        prompt_route()
+        prompt_route(prompt_data)
         return jsonify(response_data), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
