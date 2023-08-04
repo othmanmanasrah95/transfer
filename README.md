@@ -1,8 +1,8 @@
 # Snake_LocalGPT  
-- This project was inspired by the original localGPT repo [localGPT] (https://github.com/PromtEngineer/localGPT) and snake (https://github.com/khalifima/snake/tree/Prototype)
+- This project was inspired by the original localGPT repo [localGPT] (https://github.com/PromtEngineer/localGPT) and snake repo (https://github.com/khalifima/snake/tree/Prototype).
 
 The features that we have added it to the project:
-Building a Chrome Extension takes the prompt and content from the page visited.
+Building a Chrome Extension takes the user prompt and content from the page visited.
 1. Saves the content and related prompts into mongo DB.
 2. Converts the content into pdf and store it in the SOURCE_DOCUMENTS folder.
 3. Ingests the text after each content recieved from the browser which saves the chunks into DB folder. In the (run_ingest_route API) which runs the file called ingest.py.
