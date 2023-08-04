@@ -4,7 +4,7 @@
 The features that we have added it to the project:
 Building a Chrome Extension takes the user prompt and content from the page visited.
 1. Saves the content and related prompts into mongo DB.
-2. Converts the content into pdf and store it in the SOURCE_DOCUMENTS folder.
+2. Converts the content into pdf and stores it in the SOURCE_DOCUMENTS folder.
 3. Ingests the text after each content recieved from the browser which saves the chunks into DB folder. In the (run_ingest_route API) which runs the file called ingest.py.
 4. Answers the question recieved depending on the documents ingested. (Takes too much time on CPU) 
 
