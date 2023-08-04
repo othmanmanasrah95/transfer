@@ -1,13 +1,18 @@
 # Snake_GPT  
-This project was inspired by the original localGPT repo [localGPT] (https://github.com/PromtEngineer/localGPT).
-The features that we have added it to the project:
-Chrome Extension: takes the prompt and content from the page visited.
-Save the content and related prompts into mongo DB.
-Convert the content into pdf and store it in the DB indexes
-Ingesting the content after each recieved from the browser. (We can add feature to the extension to ingest on a button).
-Answer the question recieved depending on the documents ingested. 
+- This project was inspired by the original localGPT repo [localGPT] (https://github.com/PromtEngineer/localGPT).
 
-The REST APIs are in the file called backAPIs.
+The features that we have added it to the project:
+
+## Chrome Extension:
+Takes the prompt and content from the page visited.
+Saves the content and related prompts into mongo DB.
+Converts the content into pdf and store it in the SOURCE_DOCUMENTS folder.
+Ingests the text after each content recieved from the browser. (We can add feature to the extension to ingest on a button).
+Answers the question recieved depending on the documents ingested. (Takes too much time on CPU) 
+
+The REST APIs to communicate with the backend are in the file called backAPIs (You can change the device_type to cpu or cuda in the code).
+Run the backAPIs file after choosing the model you want to load, by " python backAPIs.py " command.
+
 
 
 
