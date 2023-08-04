@@ -1,3 +1,16 @@
+# Snake_GPT  
+This project was inspired by the original localGPT repo [localGPT] (https://github.com/PromtEngineer/localGPT).
+The features that we have added it to the project:
+Chrome Extension: takes the prompt and content from the page visited.
+Save the content and related prompts into mongo DB.
+Convert the content into pdf and store it in the DB indexes
+Ingesting the content after each recieved from the browser. (We can add feature to the extension to ingest on a button).
+Answer the question recieved depending on the documents ingested. 
+
+The REST APIs are in the file called backAPIs.
+
+
+
 # localGPT
 
 This project was inspired by the original [privateGPT](https://github.com/imartinez/privateGPT). Most of the description here is inspired by the original privateGPT.
