@@ -34,6 +34,8 @@ Disadvantages :
 - Sometimes responses with general answers that are not specific for the context. (depends on the prompt format).
 
 ### Snake_LocalGPT version (Navigate to LocalGPT branch)
+Checkout this readme file [README.md](https://github.com/khalifima/snake/files/12279234/README.md)
+
 This project was inspired by the original localGPT repo [localGPT] (https://github.com/PromtEngineer/localGPT) and snake repo (https://github.com/khalifima/snake/tree/Prototype).
 The features that we have added it to the project: Building a Chrome Extension takes the user prompt and content from the page visited.
 
