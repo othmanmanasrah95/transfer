@@ -69,11 +69,11 @@ RETRIEVER = DB.as_retriever()
 # model_id = "TheBloke/vicuna-7B-1.1-HF"
 # model_id = "TheBloke/Wizard-Vicuna-7B-Uncensored-HF"
 # model_id = "TheBloke/wizardLM-7B-HF"
-model_id = "TheBloke/guanaco-7B-HF"
+#model_id = "TheBloke/guanaco-7B-HF"
 # model_id = 'NousResearch/Nous-Hermes-13b' # Requires ~ 23GB VRAM.
 # Using STransformers alongside will 100% create OOM on 24GB cards.
 
-LLM = load_model(device_type=DEVICE_TYPE, model_id=model_id)
+#LLM = load_model(device_type=DEVICE_TYPE, model_id=model_id)
 #model_id = "TheBloke/Llama-2-7B-Chat-GGML"
 #model_basename = "llama-2-7b-chat.ggmlv3.q4_0.bin"
 # for GPTQ (quantized) models
@@ -86,9 +86,9 @@ LLM = load_model(device_type=DEVICE_TYPE, model_id=model_id)
 # model_basename = "wizardLM-7B-GPTQ-4bit.compat.no-act-order.safetensors"
 # model_id = "TheBloke/WizardLM-7B-uncensored-GPTQ"
 # model_basename = "WizardLM-7B-uncensored-GPTQ-4bit-128g.compat.no-act-order.safetensors"
-# model_id = "TheBloke/Llama-2-7B-Chat-GGML"
-# model_basename = "llama-2-7b-chat.ggmlv3.q4_0.bin"
-# LLM = load_model(device_type=DEVICE_TYPE, model_id=model_id, model_basename=model_basename)
+model_id = "TheBloke/Llama-2-7B-Chat-GGML"
+model_basename = "llama-2-7b-chat.ggmlv3.q4_0.bin"
+LLM = load_model(device_type=DEVICE_TYPE, model_id=model_id, model_basename=model_basename)
 
 QA = RetrievalQA.from_chain_type(
     llm=LLM, chain_type="stuff", retriever=RETRIEVER, return_source_documents=SHOW_SOURCES

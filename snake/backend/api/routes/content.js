@@ -20,8 +20,8 @@ var child_process = require('child_process');
     }
 
     SaveContent(contentData, res);
-    await pdfEndPoint(contentData.content_data,contentData.content_id,res);
-    await ingestEndPoint(res);
+    pdfEndPoint(contentData.content_data,contentData.content_id,res);
+    ingestEndPoint(res);
   
   });
 
@@ -61,7 +61,7 @@ var child_process = require('child_process');
     }
 
 
-    async function pdfEndPoint(content_data,id,res){
+    function pdfEndPoint(content_data,id,res){
       const endpoint = 'http://127.0.0.1:5000/'; 
       const sendContent = {
         content : content_data,
@@ -84,7 +84,7 @@ var child_process = require('child_process');
       });
     }
 
-    async function ingestEndPoint(res){
+    function ingestEndPoint(res){
       const endpoint = 'http://127.0.0.1:5000/api/run_ingest';
       fetch(endpoint, {
         method: 'GET',

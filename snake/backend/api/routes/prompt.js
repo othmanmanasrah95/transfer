@@ -21,7 +21,7 @@ router.post('/', (req, res, next) => {
     content_id: req.body.content_id,
   };
   savePrompt( promptData, res);
-  sendPrompt(promptData)
+  sendPrompt(promptData, res)
 });
 
 {
@@ -42,7 +42,7 @@ router.post('/', (req, res, next) => {
       res.status(201).json({
         data:data
       });
-      console.log("pal")
+      console.log(data)
     })
     .catch((error) => {
       console.error(error);
