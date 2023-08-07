@@ -21,7 +21,7 @@ Creating the necessary logic functions and layout of the follwoing components:
 
 ## LLM:
 
-### OpenAi API version: (Navigate to Prototype branch)
+### OpenAi API version: (Prototype branch)
 Implement the openAI model to get answer for question related to the the context (without fine-tuning).
 - Configuring the openAi model with the API key.
 - Taking the prompt and conetext data from the backend side.
@@ -33,22 +33,7 @@ Disadvantages :
 - Not an open-source or commercial use for confidential data.
 - Sometimes responses with general answers that are not specific for the context. (depends on the prompt format).
 
-### Snake_LocalGPT version (Navigate to LocalGPT branch)
+### Snake_LocalGPT version (LocalGPT branch)
 Checkout this readme file [README.md](https://github.com/khalifima/snake/files/12279234/README.md)
-
-This project was inspired by the original localGPT repo [localGPT] (https://github.com/PromtEngineer/localGPT) and snake repo (https://github.com/khalifima/snake/tree/Prototype).
-The features that we have added it to the project: Building a Chrome Extension takes the user prompt and content from the page visited.
-
-- Saves the content and related prompts into mongo DB.
-- Converts the content into pdf and stores it in the SOURCE_DOCUMENTS folder.
-- Ingests the text after each content recieved from the browser which saves the chunks into DB folder. In the (run_ingest_route API) which runs the file called ingest.py.
-- Answers the question recieved depending on the documents ingested. (Takes too much time on CPU)
-- The LLM REST APIs are in the file called backAPIs (You can change the device_type to cpu or cuda in the code).
-
-To run the backAPIs file after choosing the model you want to load: use the "python backAPIs.py " command.
-
-Future features:
-
-Adding a button click for ingesting process.
 
 
