@@ -21,27 +21,28 @@ router.post('/', (req, res, next) => {
     content_id: req.body.content_id,
   };
   savePrompt( promptData, res);
+  sendPrompt(promptData)
 });
 
 {
-  function communicatingWithLLM(promptData, content_data, res){
-    const endpoint = 'http://127.0.0.1:5000/'; 
-    const sendprompt = {
-      prompt : promptData["prompt_data"],
-      content : content_data
+  function sendPrompt(promptData, res){
+    const endpoint = 'http://127.0.0.1:5000/api/prompt_route'; 
+    const prompt = {
+      user_prompt : promptData.prompt_data,
     }
     fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body:  JSON.stringify(sendprompt) ,
+      body:  JSON.stringify(prompt) ,
     })
     .then((response) => response.json())
     .then((data) => {
       res.status(201).json({
         data:data
       });
+      console.log("pal")
     })
     .catch((error) => {
       console.error(error);
@@ -72,9 +73,6 @@ router.post('/', (req, res, next) => {
         content.prompts.push(createdPrompt);
         return content.save();
       });
-    })
-    .then((content) => {
-      communicatingWithLLM(promptData, content.content_data, res);
     })
     .catch((err) => {
       console.error(err);

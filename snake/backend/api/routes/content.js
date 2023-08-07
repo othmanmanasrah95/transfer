@@ -12,23 +12,17 @@ var child_process = require('child_process');
     });
   });
 
-  router.post("/", (req, res, next) => {
+   router.post("/", async (req, res, next) => {
     const contentData = {
       content_id: req.body.content_id,
 
       content_data: req.body.content_data,
-    };
-
-    /* child_process.exec('python ../../../../../../content.py', function (err){
-      if (err) {
-      console.log("child processes failed with error code: " + err.code);
     }
-  });
-  */
 
     SaveContent(contentData, res);
-
-
+    await pdfEndPoint(contentData.content_data,contentData.content_id,res);
+    await ingestEndPoint(res);
+  
   });
 
   router.get("/:contentId", (req, res, next) => {
@@ -40,22 +34,16 @@ var child_process = require('child_process');
   });
 
   {
+    
     function SaveContent(contentData, res) {
       // Create the content document
-
       const content = new Content({
         _id: contentData.content_id,
-
         content_data: contentData.content_data,
-
         prompts: [],
       });
-
       // Save the content document
-
-      content
-        .save()
-
+      content.save()
         .then(() => {
           res.status(201).json({
             message: "Content created",
@@ -70,6 +58,44 @@ var child_process = require('child_process');
             error: err.message,
           });
         });
+    }
+
+
+    async function pdfEndPoint(content_data,id,res){
+      const endpoint = 'http://127.0.0.1:5000/'; 
+      const sendContent = {
+        content : content_data,
+        id : id
+      }
+      fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body:  JSON.stringify(sendContent) ,
+      })
+      .then((response) => response.json())
+      .then(() => {
+        console.log("convert done")
+      })
+      .catch((error) => {
+        console.error("converting didn't work :    "+error);
+        // Handle any errors
+      });
+    }
+
+    async function ingestEndPoint(res){
+      const endpoint = 'http://127.0.0.1:5000/api/run_ingest';
+      fetch(endpoint, {
+        method: 'GET',
+      })
+      .then(() => {
+        console.log("ingest done")
+      })
+      .catch((error) => {
+        console.error("ingesting doesnt  work "+ error );
+        // Handle any errors
+      });
     }
 
 

@@ -21,19 +21,19 @@ def home_page():
             user_prompt = request.form["user_prompt"]
             print(f"User Prompt: {user_prompt}")
 
-            main_prompt_url = "http://localhost:5110/api/prompt_route"
+            main_prompt_url = "http://localhost:5000/api/prompt_route"
             response = requests.post(main_prompt_url, data={"user_prompt": user_prompt})
             print(response.status_code)  # print HTTP response status code for debugging
             if response.status_code == 200:
                 # print(response.json())  # Print the JSON data from the response
                 return render_template("home.html", show_response_modal=True, response_dict=response.json())
         elif "documents" in request.files:
-            delete_source_url = "http://localhost:5110/api/delete_source"  # URL of the /api/delete_source endpoint
+            delete_source_url = "http://localhost:5000/api/delete_source"  # URL of the /api/delete_source endpoint
             if request.form.get("action") == "reset":
                 response = requests.get(delete_source_url)
 
-            save_document_url = "http://localhost:5110/api/save_document"
-            run_ingest_url = "http://localhost:5110/api/run_ingest"  # URL of the /api/run_ingest endpoint
+            save_document_url = "http://localhost:5000/api/save_document"
+            run_ingest_url = "http://localhost:5000/api/run_ingest"  # URL of the /api/run_ingest endpoint
             files = request.files.getlist("documents")
             for file in files:
                 print(file.filename)

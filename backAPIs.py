@@ -98,28 +98,27 @@ app = Flask(__name__)
 
 
 @app.route('/', methods=['POST','GET'])
-def get_prompt_and_content():
+def convert_to_pdf():
     try:
         request_data = request.get_json()
 
-        prompt_data = request_data.get('prompt')
         content_data = request_data.get('content')
+        id = request_data.get('id')
+        
 
-        response_data = {
-            'prompt': prompt_data,
-            'content': content_data,
+        cont_data = {
+            'content': content_data
         }
         
-        pdf_file_path = os.path.join('SOURCE_DOCUMENTS', 'content_data.pdf')
+        pdf_file_path = os.path.join('./SOURCE_DOCUMENTS', f'{id}.pdf')
         pdfkit.from_string(content_data, pdf_file_path)
-        run_ingest_route()
-        prompt_route(prompt_data)
-        return jsonify(response_data), 201
+        print("convert done !!!")
+        return jsonify(cont_data), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 
-# @app.route("/api/run_ingest", methods=["GET"])
+@app.route("/api/run_ingest", methods=["GET"])
 def run_ingest_route():
     global DB
     global RETRIEVER
@@ -152,35 +151,38 @@ def run_ingest_route():
         QA = RetrievalQA.from_chain_type(
             llm=LLM, chain_type="stuff", retriever=RETRIEVER, return_source_documents=SHOW_SOURCES
         )
-        return "Script executed successfully: {}".format(result.stdout.decode("utf-8"))
+        return "Script executed successfully: "
     except Exception as e:
-        return f"Error occurred: {str(e)}"
+        return f"Error occurred:"
 
 
-# @app.route("/api/prompt_route", methods=["GET", "POST"])
-def prompt_route(user_prompt):
+@app.route("/api/prompt_route", methods=["GET", "POST"])
+def prompt_route():
     global QA
+    user_prompt = request.get_json().get("user_prompt")
+
     if user_prompt:
-        # print(f'User Prompt: {user_prompt}')
+        print(f'User Prompt: {user_prompt}')
         # Get the answer from the chain
         res = QA(user_prompt)
         answer, docs = res["result"], res["source_documents"]
-
+        
         prompt_response_dict = {
             "Prompt": user_prompt,
             "Answer": answer,
         }
-
-        prompt_response_dict["Sources"] = []
-        for document in docs:
-            prompt_response_dict["Sources"].append(
-                (os.path.basename(str(document.metadata["source"])), str(document.page_content))
-            )
+        print(prompt_response_dict)
+        return jsonify(prompt_response_dict), 200
+        
     else:
         print("No user prompt received")
+        return "No user prompt received", 400
 
 
 if __name__ == '__main__':
+    logging.basicConfig(
+        format="%(asctime)s - %(levelname)s - %(filename)s:%(lineno)s - %(message)s", level=logging.INFO
+    )
     app.run(debug=True, port=5000)
 
 
