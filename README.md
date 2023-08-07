@@ -21,7 +21,7 @@ Creating the necessary logic functions and layout of the follwoing components:
 
 ## LLM:
 
-### OpenAi API version:
+### OpenAi API version: (Navigate to Prototype branch)
 Implement the openAI model to get answer for question related to the the context (without fine-tuning).
 - Configuring the openAi model with the API key.
 - Taking the prompt and conetext data from the backend side.
@@ -33,7 +33,7 @@ Disadvantages :
 - Not an open-source or commercial use for confidential data.
 - Sometimes responses with general answers that are not specific for the context. (depends on the prompt format).
 
-### Snake_LocalGPT version
+### Snake_LocalGPT version (Navigate to LocalGPT branch)
 This project was inspired by the original localGPT repo [localGPT] (https://github.com/PromtEngineer/localGPT) and snake repo (https://github.com/khalifima/snake/tree/Prototype).
 The features that we have added it to the project: Building a Chrome Extension takes the user prompt and content from the page visited.
 
