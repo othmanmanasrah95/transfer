@@ -9,7 +9,7 @@ import torch
 from auto_gptq import AutoGPTQForCausalLM
 from langchain.chains import RetrievalQA
 from langchain.embeddings import HuggingFaceInstructEmbeddings
-
+from langchain.embeddings import HuggingFaceEmbeddings
 # from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.llms import HuggingFacePipeline
 from run_localGPT import load_model
@@ -34,10 +34,10 @@ SHOW_SOURCES = True
 logging.info(f"Running on: {DEVICE_TYPE}")
 logging.info(f"Display Source Documents set to: {SHOW_SOURCES}")
 
-EMBEDDINGS = HuggingFaceInstructEmbeddings(model_name=EMBEDDING_MODEL_NAME, model_kwargs={"device": DEVICE_TYPE})
+# EMBEDDINGS = HuggingFaceInstructEmbeddings(model_name=EMBEDDING_MODEL_NAME, model_kwargs={"device": DEVICE_TYPE})
 
 # uncomment the following line if you used HuggingFaceEmbeddings in the ingest.py
-# EMBEDDINGS = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME)
+EMBEDDINGS = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME)
 if os.path.exists(PERSIST_DIRECTORY):
     try:
         shutil.rmtree(PERSIST_DIRECTORY)
@@ -91,8 +91,9 @@ model_id = "TheBloke/Llama-2-7B-Chat-GGML"
 model_basename = "llama-2-7b-chat.ggmlv3.q4_0.bin"
 
 
+# This is the prompt template structure for LLama2 model
 template = """ [INST] <<SYS>>
-User the following pieces of context to answer the question at the end. If you don't know the answer,\
+User the following pieces of context only to find answer to the question at the end. If you don't know the answer,\
 just say that you don't know, don't try to make up an answer.
 
 <</SYS>>
@@ -104,12 +105,11 @@ just say that you don't know, don't try to make up an answer.
 {question}
 
 [/INST]
-
 """
-
-
-
 prompt = PromptTemplate(input_variables=["history", "context", "question"], template=template)
+
+
+# here is the memory buffer to recognize the history for the conversation
 memory = ConversationBufferMemory(input_key="question", memory_key="history")
 
 LLM = load_model(device_type=DEVICE_TYPE, model_id=model_id, model_basename=model_basename)
