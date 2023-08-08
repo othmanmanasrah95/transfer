@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     try {
     var response= await sendPromptToApi(contentId,enteredPrompt);
+    console.log(response);
     responseText.textContent=response;
     promptText.value = '';
   }
@@ -53,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var enteredPrompt = promptText.value;
       try {
         var response = await sendPromptToApi(contentId, enteredPrompt);
+        console.log(response);
         responseText.textContent = response;
         promptText.value = '';
 

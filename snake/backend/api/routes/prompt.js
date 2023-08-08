@@ -21,16 +21,16 @@ router.post('/', (req, res, next) => {
     content_id: req.body.content_id,
   };
   savePrompt( promptData, res);
-  sendPrompt(promptData, res)
+  sendPrompt(promptData, res);
 });
 
 {
-  function sendPrompt(promptData, res){
+   function sendPrompt(promptData, res){
     const endpoint = 'http://127.0.0.1:5000/api/prompt_route'; 
     const prompt = {
       user_prompt : promptData.prompt_data,
     }
-    fetch(endpoint, {
+   fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ router.post('/', (req, res, next) => {
     .then((response) => response.json())
     .then((data) => {
       res.status(201).json({
-        data:data
+        data:data.Answer
       });
       console.log(data)
     })

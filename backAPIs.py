@@ -13,7 +13,8 @@ from langchain.embeddings import HuggingFaceInstructEmbeddings
 # from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.llms import HuggingFacePipeline
 from run_localGPT import load_model
-
+from langchain.memory import ConversationBufferMemory
+from langchain.prompts import PromptTemplate
 # from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.vectorstores import Chroma
 from transformers import (
@@ -88,10 +89,37 @@ RETRIEVER = DB.as_retriever()
 # model_basename = "WizardLM-7B-uncensored-GPTQ-4bit-128g.compat.no-act-order.safetensors"
 model_id = "TheBloke/Llama-2-7B-Chat-GGML"
 model_basename = "llama-2-7b-chat.ggmlv3.q4_0.bin"
+
+
+template = """ [INST] <<SYS>>
+User the following pieces of context to answer the question at the end. If you don't know the answer,\
+just say that you don't know, don't try to make up an answer.
+
+<</SYS>>
+
+{context}
+
+{history}
+
+{question}
+
+[/INST]
+
+"""
+
+
+
+prompt = PromptTemplate(input_variables=["history", "context", "question"], template=template)
+memory = ConversationBufferMemory(input_key="question", memory_key="history")
+
 LLM = load_model(device_type=DEVICE_TYPE, model_id=model_id, model_basename=model_basename)
 
 QA = RetrievalQA.from_chain_type(
-    llm=LLM, chain_type="stuff", retriever=RETRIEVER, return_source_documents=SHOW_SOURCES
+    llm=LLM,
+    chain_type="stuff", 
+    retriever=RETRIEVER,
+    return_source_documents=SHOW_SOURCES,
+    chain_type_kwargs={"prompt": prompt, "memory": memory},
 )
 
 app = Flask(__name__)
@@ -149,7 +177,10 @@ def run_ingest_route():
         RETRIEVER = DB.as_retriever()
 
         QA = RetrievalQA.from_chain_type(
-            llm=LLM, chain_type="stuff", retriever=RETRIEVER, return_source_documents=SHOW_SOURCES
+            llm=LLM, 
+            chain_type="stuff", 
+            retriever=RETRIEVER, 
+            return_source_documents=SHOW_SOURCES
         )
         return "Script executed successfully: "
     except Exception as e:
@@ -167,12 +198,13 @@ def prompt_route():
         res = QA(user_prompt)
         answer, docs = res["result"], res["source_documents"]
         
-        prompt_response_dict = {
+        data = {
             "Prompt": user_prompt,
             "Answer": answer,
         }
-        print(prompt_response_dict)
-        return jsonify(prompt_response_dict), 200
+        #you can print the resource docs here using for loop 
+        print(data)
+        return jsonify(data), 200
         
     else:
         print("No user prompt received")

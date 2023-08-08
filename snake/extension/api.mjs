@@ -39,7 +39,8 @@ export function sendContentToApi(content_id,received_content) {
       });
   
       const data = await response.json();
-      return data["data"].data;
+      console.log(data["data"])
+      return data["data"];
     } catch (error) {
       console.error(error);
       throw error;
