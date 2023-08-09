@@ -12,9 +12,9 @@ a chrome extension that extracts text from web pages, and answer the user questi
 
 - Creating the necessary logic functions and layout of the follwoing components:
 
-  Prompt: creating a post request API that takes input from the user to the backend side with the content related to.
+  Prompt: creating a post API that takes input from the user to the backend side with the content related to.
 
-  Content: posting the extracted content with the unique id to the database.
+  Content: sending the extracted content with the unique id to the database.
 
   Response: return the reposnse back from the llm and displaying on the extension. 
 
