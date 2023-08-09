@@ -7,22 +7,22 @@ Initialize a neural network with pre-trained weights and let all weights be adju
 a chrome extension that extracts text from web pages, and answer the user questions depending on the content extracted from web page visited by help of large language model.
 
 # How to run
-1. Clone the repo to your local machine
-2. ```shell
+Clone the repo to your local machine
+   ```shell
     cd repo_directory
    ```
 ### Run the backend APIs
-4. ```shell
+```shell
     cd snake/backend
    ```
-6. ```shell
+ ```shell
     npm start
    ```
 ### Run the llm APIs
-6. ```shell
+```shell
     python llmAPIs.py
    ```
-7. Now open the extension and interact with your llm
+Now open the extension and interact with your llm
 
 
 ## Extension:
