@@ -139,7 +139,7 @@ The Content API is responsible for managing content-related operations and inter
 The Content API serves as an intermediary for handling content-related tasks and coordinating interactions between the extension and the LLM.
 
 
-## Prompt API:
+### Prompt API:
 The Prompt API is responsible for managing prompt-related operations and communication between the Chrome extension and the LLM.
 
 1. **Retrieve Prompt Data:**
