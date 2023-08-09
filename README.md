@@ -85,24 +85,77 @@ These interactions enable the extension to act as an intermediary, providing a u
    - PromptTemplate and ConversationBufferMemory instances are initialized.
    - The Load LLM model function is used to load the model.
 
-4. **Flask Application Setup:**
-   - A Flask app instance is created.
-
-5. **Convert Content to PDF and Save:**
+4. **Convert Content to PDF and Save:**
    - An API route allows for the conversion of content to PDF format.
    - The content is saved in a specified directory as a PDF file.
 
-6. **Run Ingest Process:**
+5. **Run Ingest Process:**
    - Another API route triggers the ingest process.
    - The "ingest.py" script is executed with optional arguments.
    - The Chroma database, retriever, and QA models are loaded from the persist directory.
 
-7. **Accept User Prompt and Provide Answer:**
+6. **Accept User Prompt and Provide Answer:**
    - An API route accepts a user prompt.
    - The QA model processes the prompt and generates an answer.
    - The answer and source documents used are returned as a JSON response.
 
 
+## Back-end APIs
+### Content API:
+The Content API is responsible for managing content-related operations and interactions with the Chrome extension and the Local GPT LLM.
+
+1. **Retrieve All Content:**
+   - Route: GET "/"
+   - Fetches all content documents from the database and returns them as a JSON response.
+
+2. **Retrieve Content by ID:**
+   - Route: GET "/:contentId"
+   - Retrieves a specific content document based on the provided content ID and returns it as a JSON response.
+
+3. **Create New Content:**
+   - Route: POST "/"
+   - Accepts content data in the request body and saves it to the database.
+   - Calls the PDF and ingest endpoints for further processing.
+   - Responds with a success message and the saved content data or an error message.
+
+4. **Convert Content to PDF:**
+   - Function: pdfEndPoint(content_data, id)
+   - Sends a POST request to a specified endpoint with content data and ID to convert it to a PDF.
+   - Handles response and logs results.
+
+5. **Run Ingest Processes:**
+   - Function: ingestEndPoint()
+   - Sends a GET request to a specified ingest endpoint.
+   - Handles response and logs results.
+
+The Content API serves as an intermediary for handling content-related tasks and coordinating interactions between the extension and the LLM.
+
+
+## Prompt API:
+The Prompt API is responsible for managing prompt-related operations and communication between the Chrome extension and the LLM.
+
+1. **Retrieve Prompt Data:**
+   - Route: GET "/"
+   - Returns a JSON response indicating that prompt data has been fetched.
+
+2. **Create New Prompt:**
+   - Route: POST "/"
+   - Accepts prompt data and content ID in the request body.
+   - Calls savePrompt and sendPrompt functions for processing and communication.
+   - Responds with the received answer or an error message.
+
+3. **Send Prompt Data to Another API:**
+   - Function: sendPrompt(promptData, res)
+   - Sends a POST request to a specified endpoint with user prompt data.
+   - Handles response, logs data, and responds with the received answer.
+
+4. **Save Prompt Data:**
+   - Function: savePrompt(promptData, res)
+   - Creates a new prompt document and associates it with the corresponding content.
+   - Saves the prompt and updates the content document.
+   - Handles errors and responds with appropriate messages.
+
+The Prompt API facilitates the creation and communication of prompts between the extension and the LLM, ensuring seamless interactions and data exchange.
 
 
 
