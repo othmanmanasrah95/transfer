@@ -55,8 +55,19 @@ The extension serves several key functions, enabling seamless interaction betwee
 * A prominent input field in the extension's UI allows users to enter prompts. These prompts are sent to the backend APIs to generate relevant responses.
 #### 3. API Communication:
 * The extension facilitates communication with the backend APIs using HTTP requests. It sends both scraped data and user prompts to their respective API endpoints.
-#### 4.
+#### 4. Display of Responses:
 * The extension displays responses received from the backend APIs in a designated answer field. This real-time interaction enables users to quickly view the results of their prompts.
+
+### Interaction with Backend APIs
+The Chrome extension collaborates closely with the backend APIs to ensure smooth data exchange and response handling:
+
+* Scraped Data:
+   *  The extension uses HTTP POST requests to send scraped data to the backend API's ```/content``` endpoint.
+
+* User Prompts:
+   * The extension sends user-entered prompts to the backend API's ```/prompt``` endpoint.
+
+These interactions enable the extension to act as an intermediary, providing a user-friendly interface while effectively communicating with the backend to process data and generate responses.
 
 
 
