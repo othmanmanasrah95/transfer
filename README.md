@@ -127,12 +127,12 @@ The Content API is responsible for managing content-related operations and inter
 
 5. **pdfEndPoint Function:**
    - Asynchronously sends a POST request to convert content to PDF.
-   - Constructs the endpoint URL and prepares data to be sent.
+   - Constructs the endpoint URL(convert_to_pdf located in llmAPIs.py) and prepares data to be sent.
    - Handles response and logs success or error messages.
 
 6. **ingestEndPoint Function:**
    - Asynchronously sends a GET request to run ingest processes.
-   - Constructs the endpoint URL.
+   - Constructs the endpoint URL(/api/run_ingest located in llmAPIs.py).
    - Handles response and logs success or error messages.
 
 
