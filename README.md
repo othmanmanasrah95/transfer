@@ -90,5 +90,5 @@ Selecting the right local models and the power of `LangChain` you can run the en
 - You can replace this local LLM with any other LLM from the HuggingFace. Make sure whatever LLM you select is in the HF format.
 
 
-
-
+## Data Flow
+https://www.figma.com/file/nUaAfW1Laigb9w9ST6AaQL/Untitled?type=whiteboard&node-id=0%3A1&t=IxThvhBrjWTRnbSH-1
