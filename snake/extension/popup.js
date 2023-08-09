@@ -43,11 +43,13 @@ document.addEventListener('DOMContentLoaded', function() {
     var enteredPrompt = promptText.value;
     
     try {
+    if(enteredPrompt!=''){
     responseText.textContent =''
     var response= await sendPrompt(contentId,enteredPrompt);
     console.log(response);
     responseText.textContent=response;
     promptText.value = '';
+     }  
   }
     catch (error) {
     console.error(error);
@@ -59,12 +61,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (e.code == "Enter") {
       var enteredPrompt = promptText.value;
       try {
-        responseText.textContent =''
-        var response = await sendPrompt(contentId, enteredPrompt);
-        console.log(response);
-        responseText.textContent = response;
-        promptText.value = '';
-
+        if(enteredPrompt!=''){
+          responseText.textContent =''
+          var response = await sendPrompt(contentId, enteredPrompt);
+          console.log(response);
+          responseText.textContent = response;
+          promptText.value = '';
+        }
       } catch (error) {
         console.error(error);
       }
