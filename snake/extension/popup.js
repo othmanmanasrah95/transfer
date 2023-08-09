@@ -1,5 +1,7 @@
 import { sendPromptToApi } from "./api.mjs";
 
+
+// when HTML document has been completely parsed,
 document.addEventListener('DOMContentLoaded', function() {
 
   var scrapingToggle = document.getElementById('agree-toggle');
@@ -7,9 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
   var promptText= document.getElementById('prompt_text');
   var submitButton = document.getElementById("submit_button");
   var responseText = document.getElementById("answer-container");  
-
+  
   var contentData;
   var contentId;
+
 // default checkbox value
   chrome.storage.sync.get('scrapingEnabled', function(data) {
     let isScrapingEnabled = data.scrapingEnabled;
@@ -22,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  //  checkbox value if any change to it 
+  //  checkbox value if its value changes 
   scrapingToggle.addEventListener('change', function() {
    var isScrapingEnabled = scrapingToggle.checked;
 
@@ -35,10 +38,12 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.storage.sync.set({ 'scrapingEnabled': isScrapingEnabled });
   });
 
+  // when button clicked .. send the prompt
   submitButton.addEventListener("click",async function () {
     var enteredPrompt = promptText.value;
     
     try {
+    responseText.textContent =''
     var response= await sendPromptToApi(contentId,enteredPrompt);
     console.log(response);
     responseText.textContent=response;
@@ -49,10 +54,12 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   });
 
+  // when the enter key is pressed do the same thing as above
   promptText.addEventListener("keydown", async function(e) {
     if (e.code == "Enter") {
       var enteredPrompt = promptText.value;
       try {
+        responseText.textContent =''
         var response = await sendPromptToApi(contentId, enteredPrompt);
         console.log(response);
         responseText.textContent = response;
@@ -65,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
 
+  // get the content and send an action of get_content
   function enableScraping() {
     chrome.runtime.sendMessage({ action: 'get_content' }, function(response) {
 
