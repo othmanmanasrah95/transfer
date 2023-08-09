@@ -1,10 +1,10 @@
+#Import required dependencies
 import os
 import pdfkit
 from flask import Flask,jsonify,request
 import logging
 import shutil
 import subprocess
-
 import torch
 from auto_gptq import AutoGPTQForCausalLM
 from langchain.chains import RetrievalQA
@@ -26,18 +26,30 @@ from transformers import (
     pipeline,
 )
 from werkzeug.utils import secure_filename
-
 from constants import CHROMA_SETTINGS, EMBEDDING_MODEL_NAME, PERSIST_DIRECTORY
 
+
+
+
+# Set the device type to "cpu"
 DEVICE_TYPE = "cpu"
+
+# Enable showing source documents
 SHOW_SOURCES = True
+
+# Log the current device type to the console
 logging.info(f"Running on: {DEVICE_TYPE}")
+
+# Log the status of showing source documents to the console
 logging.info(f"Display Source Documents set to: {SHOW_SOURCES}")
 
-# EMBEDDINGS = HuggingFaceInstructEmbeddings(model_name=EMBEDDING_MODEL_NAME, model_kwargs={"device": DEVICE_TYPE})
 
-# uncomment the following line if you used HuggingFaceEmbeddings in the ingest.py
+
+
+# Initialize HuggingFaceEmbeddings instance
 EMBEDDINGS = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME)
+
+# Check if PERSIST_DIRECTORY exists and remove it if it does
 if os.path.exists(PERSIST_DIRECTORY):
     try:
         shutil.rmtree(PERSIST_DIRECTORY)
@@ -46,38 +58,49 @@ if os.path.exists(PERSIST_DIRECTORY):
 else:
     print("The directory does not exist")
 
+# Create run_langest_commands list
 run_langest_commands = ["python", "ingest.py"]
+
+# If DEVICE_TYPE is "cpu", append "--device_type" and DEVICE_TYPE to the run_langest_commands list
 if DEVICE_TYPE == "cpu":
     run_langest_commands.append("--device_type")
     run_langest_commands.append(DEVICE_TYPE)
 
+# Run subprocess
 result = subprocess.run(run_langest_commands, capture_output=True)
+
+# Check if return code is not 0
 if result.returncode != 0:
     raise FileNotFoundError(
         "No files were found inside SOURCE_DOCUMENTS, please put a starter file inside before starting the API!"
     )
 
-# load the vectorstore
+
+
+
+# Initialize Chroma database with specified parameters
 DB = Chroma(
     persist_directory=PERSIST_DIRECTORY,
     embedding_function=EMBEDDINGS,
     client_settings=CHROMA_SETTINGS,
 )
-
+# Convert Chroma database object to retriever object
 RETRIEVER = DB.as_retriever()
 
-# for HF models
+
+
+#--------------- HF models ---------------#
 # model_id = "TheBloke/vicuna-7B-1.1-HF"
 # model_id = "TheBloke/Wizard-Vicuna-7B-Uncensored-HF"
 # model_id = "TheBloke/wizardLM-7B-HF"
 #model_id = "TheBloke/guanaco-7B-HF"
 # model_id = 'NousResearch/Nous-Hermes-13b' # Requires ~ 23GB VRAM.
 # Using STransformers alongside will 100% create OOM on 24GB cards.
-
 #LLM = load_model(device_type=DEVICE_TYPE, model_id=model_id)
 #model_id = "TheBloke/Llama-2-7B-Chat-GGML"
 #model_basename = "llama-2-7b-chat.ggmlv3.q4_0.bin"
-# for GPTQ (quantized) models
+
+#--------------- GPTQ (quantized) models ---------------#
 # model_id = "TheBloke/Nous-Hermes-13B-GPTQ"
 # model_basename = "nous-hermes-13b-GPTQ-4bit-128g.no-act.order"
 # model_id = "TheBloke/WizardLM-30B-Uncensored-GPTQ"
@@ -89,6 +112,8 @@ RETRIEVER = DB.as_retriever()
 # model_basename = "WizardLM-7B-uncensored-GPTQ-4bit-128g.compat.no-act-order.safetensors"
 model_id = "TheBloke/Llama-2-7B-Chat-GGML"
 model_basename = "llama-2-7b-chat.ggmlv3.q4_0.bin"
+
+
 
 
 # This is the prompt template structure for LLama2 model
@@ -106,14 +131,17 @@ just say that you don't know, don't try to make up an answer.
 
 [/INST]
 """
-prompt = PromptTemplate(input_variables=["history", "context", "question"], template=template)
 
+# Initialize PromptTemplate object named prompt
+prompt = PromptTemplate(input_variables=["history", "context", "question"], template=template)
 
 # here is the memory buffer to recognize the history for the conversation
 memory = ConversationBufferMemory(input_key="question", memory_key="history")
 
+# Loading the model using the load_model function
 LLM = load_model(device_type=DEVICE_TYPE, model_id=model_id, model_basename=model_basename)
 
+# Creating an instance of RetrievalQA class using the from_chain_type method
 QA = RetrievalQA.from_chain_type(
     llm=LLM,
     chain_type="stuff", 
@@ -122,36 +150,57 @@ QA = RetrievalQA.from_chain_type(
     chain_type_kwargs={"prompt": prompt, "memory": memory},
 )
 
-app = Flask(__name__)
 
+
+
+app = Flask(__name__)
 
 @app.route('/', methods=['POST','GET'])
 def convert_to_pdf():
+    """
+    Converts the content from the JSON payload into a PDF file with the id as the filename.
+    Saves the PDF file in the "./SOURCE_DOCUMENTS" directory.
+    Returns a JSON response with the original content.
+    """
+
     try:
         request_data = request.get_json()
 
         content_data = request_data.get('content')
         id = request_data.get('id')
-        
 
         cont_data = {
             'content': content_data
         }
-        
+
+        # Convert content to PDF
         pdf_file_path = os.path.join('./SOURCE_DOCUMENTS', f'{id}.pdf')
+
+        # Save PDF file with id as the filename in "./SOURCE_DOCUMENTS"
         pdfkit.from_string(content_data, pdf_file_path)
+
         print("convert done !!!")
         return jsonify(cont_data), 201
+    
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 
 @app.route("/api/run_ingest", methods=["GET"])
 def run_ingest_route():
+    """
+    Runs the ingest process.
+    Deletes the "PERSIST_DIRECTORY" if it exists.
+    Executes the "ingest.py" script with optional arguments based on "DEVICE_TYPE".
+    Returns an error message if the script execution fails.
+    Loads the vectorstore, retriever, and QA models from the persist directory if successful.
+    """
+
     global DB
     global RETRIEVER
     global QA
     try:
+        # Check if persist directory exists and delete if it does
         if os.path.exists(PERSIST_DIRECTORY):
             try:
                 shutil.rmtree(PERSIST_DIRECTORY)
@@ -160,15 +209,18 @@ def run_ingest_route():
         else:
             print("The directory does not exist")
 
+        # Run ingest.py script with optional arguments based on device_type
         run_langest_commands = ["python", "ingest.py"]
         if DEVICE_TYPE == "cpu":
             run_langest_commands.append("--device_type")
             run_langest_commands.append(DEVICE_TYPE)
-            
         result = subprocess.run(run_langest_commands, capture_output=True)
+
+        # If script execution fails, return error message
         if result.returncode != 0:
             return "Script execution failed: {}".format(result.stderr.decode("utf-8")), 500
-        # load the vectorstore
+        
+        # Load vectorstore, retriever, and QA models from persist directory
         DB = Chroma(
             persist_directory=PERSIST_DIRECTORY,
             embedding_function=EMBEDDINGS,
@@ -189,6 +241,13 @@ def run_ingest_route():
 
 @app.route("/api/prompt_route", methods=["GET", "POST"])
 def prompt_route():
+    """
+    Accepts a user prompt as a JSON payload.
+    Passes the user prompt to the QA model to get an answer.
+    Returns a JSON response with the user prompt and the answer.
+    Option to print out source documents used in the answer.
+    """
+
     global QA
     user_prompt = request.get_json().get("user_prompt")
 
@@ -202,7 +261,6 @@ def prompt_route():
             "Prompt": user_prompt,
             "Answer": answer,
         }
-        #you can print the resource docs here using for loop 
         print(data)
         return jsonify(data), 200
         
@@ -216,9 +274,3 @@ if __name__ == '__main__':
         format="%(asctime)s - %(levelname)s - %(filename)s:%(lineno)s - %(message)s", level=logging.INFO
     )
     app.run(debug=True, port=5000)
-
-
-
-
-
-
