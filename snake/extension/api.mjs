@@ -1,4 +1,4 @@
-export function sendContentToApi(content_id,received_content) {
+export function sendContent(content_id,received_content) {
   const contentData = {
     content_id:content_id,
     content_data: received_content
@@ -20,7 +20,7 @@ export function sendContentToApi(content_id,received_content) {
 
   }
 
-  export async function sendPromptToApi(content_id, received_prompt) {
+  export async function sendPrompt(content_id, received_prompt) {
     const promptData = {
       prompt_data: received_prompt,
       content_id: content_id,

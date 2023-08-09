@@ -1,4 +1,4 @@
-import { sendPromptToApi } from "./api.mjs";
+import { sendPrompt } from "./api.mjs";
 
 
 // when HTML document has been completely parsed,
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     try {
     responseText.textContent =''
-    var response= await sendPromptToApi(contentId,enteredPrompt);
+    var response= await sendPrompt(contentId,enteredPrompt);
     console.log(response);
     responseText.textContent=response;
     promptText.value = '';
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var enteredPrompt = promptText.value;
       try {
         responseText.textContent =''
-        var response = await sendPromptToApi(contentId, enteredPrompt);
+        var response = await sendPrompt(contentId, enteredPrompt);
         console.log(response);
         responseText.textContent = response;
         promptText.value = '';
@@ -79,8 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (response && response.contentData && response.contentId) {
         contentData =response.contentData;
         contentId = response.contentId;
-        contentContainer.textContent = contentData;
-        //sendDataToAPI(response.content);
+        contentContainer.textContent ="Page data processed!"
         console.log(contentData);   
       }
     });
@@ -88,6 +87,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function disableScraping() {
-    contentContainer.textContent = '';
+    contentContainer.textContent = 'No data is extracted';
   }
 });

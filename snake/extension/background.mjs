@@ -1,4 +1,4 @@
-import { sendContentToApi } from "./api.mjs";
+import { sendContent } from "./api.mjs";
 
 
 //listens to all background actions
@@ -23,7 +23,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           var content = result[0].result; //the variable is the the text extracted
           generateOrRetrieveUniqueId(content, function(contentId) {
             sendResponse({ contentData: content, contentId: contentId });
-            sendContentToApi(contentId, content);
+            sendContent(contentId, content);
           });
         }
       );
