@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Browser Snake Extension",
-  "version": "0.00001",
+  "name": "SnakeGPT",
+  "version": "1.1",
   "permissions":
    ["tabs",
   "storage",

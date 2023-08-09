@@ -4,28 +4,26 @@
   <title>Snake Helper Extension</title>
   <script type="module" src="popup.js"></script>
   <link rel="stylesheet" type="text/css" href="popup.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
   <div class="container">
     <h2>Snake Helper</h2>
-    <div>
-      <label for="agree-toggle">Note: The extension will collect the data from the current web page.</label>
+    <div class="note">
+      <label for="agree-toggle">Note: The extension will collect data from the current web page.</label>
     </div>
     <div class="checkbox-container">
-      <label for="agree-toggle">I agree:</label>
       <input type="checkbox" id="agree-toggle" name="agree-toggle" checked>
+      <label for="agree-toggle">I agree</label>
     </div>
     <div class="input-container">
-      <label for="prompt_text">Ask a question:</label>
-      <input type="text" name="prompt_text" id="prompt_text">
-      <button id="submit_button">Submit</button>
+      <input type="text" name="prompt_text" id="prompt_text" placeholder="Ask the snake..">
+      <button id="submit_button"><i class="fas fa-paper-plane"></i></button>
     </div>
     <h2>Answer:</h2>
-    <div id="answer-container"></div>
-  </div>
-    </div>
+    <div class="answer-container" id="answer-container"></div>
     <h2>Content:</h2>
-    <div id="content-container"></div>
+    <div class="content-container" id="content-container"></div>
   </div>
 </body>
 </html>
