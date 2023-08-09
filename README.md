@@ -38,7 +38,6 @@ Run the UI
 ```shell
    cd localGPTUI
 ```
-Run UI 
 ```shell
     python localGPTUI.py
 ```
