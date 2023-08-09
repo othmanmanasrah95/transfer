@@ -11,14 +11,14 @@ Clone the repo to your local machine
    ```shell
     cd repo_directory
    ```
-### Run the backend APIs
+Run the backend APIs
 ```shell
     cd snake/backend
    ```
  ```shell
     npm start
    ```
-### Run the llm APIs
+Run the llm APIs
 ```shell
     python llmAPIs.py
    ```
