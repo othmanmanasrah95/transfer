@@ -8,7 +8,7 @@ a chrome extension that extracts text from web pages, and answer the user questi
 
 # How to run 
 
-## With the extension
+### With the extension
 Clone the repo to your local machine
 ```shell
    cd repo_directory
@@ -29,7 +29,7 @@ Run the llm APIs
 ```
 Now open the extension and interact with your llm
 
-## With the UI
+### With the UI
 Run the llm APIs
 ```shell
     python llmAPIs.py
