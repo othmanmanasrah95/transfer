@@ -111,22 +111,30 @@ The Content API is responsible for managing content-related operations and inter
 2. **Retrieve Content by ID:**
    - Route: GET "/:contentId"
    - Retrieves a specific content document based on the provided content ID and returns it as a JSON response.
-
+   - 
 3. **Create New Content:**
-   - Route: POST "/"
-   - Accepts content data in the request body and saves it to the database.
-   - Calls the PDF and ingest endpoints for further processing.
-   - Responds with a success message and the saved content data or an error message.
+- Route: POST "/"
+- Accepts content ID and content data in the request body.
+- Calls `SaveContent` function to handle content creation and processing.
 
-4. **Convert Content to PDF:**
-   - Function: pdfEndPoint(content_data, id)
-   - Sends a POST request to a specified endpoint with content data and ID to convert it to a PDF.
-   - Handles response and logs results.
+4. **SaveContent Function:**
+- Asynchronously saves content to the database.
+- Checks if the provided content ID already exists; returns an error if it does.
+- Creates a content document with content ID, content data, and empty prompts array.
+- Saves the content document to the database.
+- Calls `pdfEndPoint` and `ingestEndPoint` functions for further processing.
+- Responds with a success message and the saved content data or an error message.
 
-5. **Run Ingest Processes:**
-   - Function: ingestEndPoint()
-   - Sends a GET request to a specified ingest endpoint.
-   - Handles response and logs results.
+5. **pdfEndPoint Function:**
+- Asynchronously sends a POST request to convert content to PDF.
+- Constructs the endpoint URL and prepares data to be sent.
+- Handles response and logs success or error messages.
+
+6. **ingestEndPoint Function:**
+- Asynchronously sends a GET request to run ingest processes.
+- Constructs the endpoint URL.
+- Handles response and logs success or error messages.
+
 
 The Content API serves as an intermediary for handling content-related tasks and coordinating interactions between the extension and the LLM.
 
