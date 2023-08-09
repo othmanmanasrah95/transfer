@@ -1,4 +1,4 @@
-[Contribution guidelines for this project](snake/extension/images/snakegpt.png)
+![Contribution guidelines for this project](snake/extension/images/snakegpt.png)
 # Snake
 Strategic Neural Analysis and Knowledge Enhancement. 
 Initialize a neural network with pre-trained weights and let all weights be adjusted with the new training.
