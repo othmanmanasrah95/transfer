@@ -44,7 +44,19 @@ Run the UI
 The UI will be Running on ```http://127.0.0.1:5111```
 
 ## Extension:
-11111
+The Google Chrome extension is a vital component of the project, providing a user-friendly interface for interacting with both the web content and the backend APIs.
+
+### Functionality
+The extension serves several key functions, enabling seamless interaction between the user, web content, and backend APIs:
+
+#### 1. Data Scraping:
+* The extension allows users to scrape data from the currently active tab in the Chrome browser. This scraped data is sent to the backend APIs for further processing.
+#### 2. User Prompt Input:
+* A prominent input field in the extension's UI allows users to enter prompts. These prompts are sent to the backend APIs to generate relevant responses.
+#### 3. API Communication:
+* The extension facilitates communication with the backend APIs using HTTP requests. It sends both scraped data and user prompts to their respective API endpoints.
+#### 4.
+* The extension displays responses received from the backend APIs in a designated answer field. This real-time interaction enables users to quickly view the results of their prompts.
 
 
 
