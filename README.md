@@ -1,5 +1,40 @@
-# Snake_LocalGPT  
-- This project was inspired by the original localGPT repo [localGPT] (https://github.com/PromtEngineer/localGPT) and snake repo (https://github.com/khalifima/snake/tree/Prototype).
+# Snake
+Strategic Neural Analysis and Knowledge Enhancement. 
+Initialize a neural network with pre-trained weights and let all weights be adjusted with the new training.
+
+**Description:** 
+a chrome extension that extracts text from web pages, and answer the user questions depending on the content extracted from web page visited by help of large language model.
+
+
+## Extension:
+
+- Creating a labeled checkbox to ensure users are aware of data scraping.
+
+- Creating the necessary logic functions and layout of the follwoing components:
+
+  Prompt: creating a post API that takes input from the user to the backend side with the content related to.
+
+  Content: sending the extracted content with the unique id to the database.
+
+  Response: return the reposnse back from the llm and displaying on the extension. 
+
+
+## LLM:
+
+## 1) OpenAi API version: (Prototype branch)
+Implement the openAI model to get answer for question related to the the context (without fine-tuning).
+- Configuring the openAi model with the API key.
+- Taking the prompt and conetext data from the backend side.
+- Customizing the prompt and openAi parameters.
+- Dividing the content into chunks that fits the maximum tokens for the model.
+- Testing the actual and expected result.
+
+1.1) Disadvantages : 
+- Not an open-source or commercial use for confidential data.
+- Sometimes responses with general answers that are not specific for the context. (depends on the prompt format).
+
+## 2) Snake_LocalGPT version (LocalGPT branch)
+This project was inspired by the original localGPT repo [localGPT] (https://github.com/PromtEngineer/localGPT) and snake repo (https://github.com/khalifima/snake/tree/Prototype).
 
 The features that we have added it to the project:
 Building a Chrome Extension takes the user prompt and content from the page visited.
@@ -14,9 +49,7 @@ Future features:
 1. Adding a button click for ingesting process.
 
 
-
-
-## Instructions for ingesting your own dataset
+## 2.1 Instructions for ingesting your own dataset
 
 Put any and all of your .txt, .pdf, or .csv files into the SOURCE_DOCUMENTS directory
 in the load_documents() function, replace the docs_path with the absolute path of your source_documents directory.
@@ -29,9 +62,8 @@ If you want to start from an empty database, delete the `index`.
 
 Note: When you run this for the first time, it will download take time as it has to download the embedding model. In the subseqeunt runs, no data will leave your local enviroment and can be run without internet connection.
 
-## Ask questions to your documents, locally!
 
-
+## 2.2 Ask questions to your documents, locally!
 The LLM REST APIs are in the file called backAPIs (You can change the device_type to cpu or cuda in the code).
 
 In order to ask a questions:
@@ -48,11 +80,14 @@ Note: When you run this for the first time, it will need internet connection to 
 
 
 
-# How does it work?
+## 2.3 How does it work?
 
 Selecting the right local models and the power of `LangChain` you can run the entire pipeline locally, without any data leaving your environment, and with reasonable performance.
 
 - `ingest.py` uses `LangChain` tools to parse the document and create embeddings locally using `InstructorEmbeddings`. It then stores the result in a local vector database using `Chroma` vector store.
 - `backAPIs.py` uses a local LLM  to understand questions and create answers. The context for the answers is extracted from the local vector store using a similarity search to locate the right piece of context from the docs.
 - You can replace this local LLM with any other LLM from the HuggingFace. Make sure whatever LLM you select is in the HF format.
+
+
+
 
