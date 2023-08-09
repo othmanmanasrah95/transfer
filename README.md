@@ -44,33 +44,12 @@ Run the UI
 The UI will be Running on ```http://127.0.0.1:5111```
 
 ## Extension:
+11111
 
-- Creating a labeled checkbox to ensure users are aware of data scraping.
-
-- Creating the necessary logic functions and layout of the follwoing components:
-
-  Prompt: creating a post API that takes input from the user to the backend side with the content related to.
-
-  Content: sending the extracted content with the unique id to the database.
-
-  Response: return the reposnse back from the llm and displaying on the extension. 
 
 
 ## LLM:
-
-## 1) OpenAi API version: (Prototype branch)
-Implement the openAI model to get answer for question related to the the context (without fine-tuning).
-- Configuring the openAi model with the API key.
-- Taking the prompt and conetext data from the backend side.
-- Customizing the prompt and openAi parameters.
-- Dividing the content into chunks that fits the maximum tokens for the model.
-- Testing the actual and expected result.
-
-1.1) Disadvantages : 
-- Not an open-source or commercial use for confidential data.
-- Sometimes responses with general answers that are not specific for the context. (depends on the prompt format).
-
-## 2) Snake_LocalGPT version (LocalGPT branch)
+### LocalGPT
 This project was inspired by the original localGPT repo [localGPT] (https://github.com/PromtEngineer/localGPT) and snake repo (https://github.com/khalifima/snake/tree/Prototype).
 
 The features that we have added it to the project:
