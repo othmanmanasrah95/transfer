@@ -8,12 +8,20 @@ a chrome extension that extracts text from web pages, and answer the user questi
 
 # How to run
 1. Clone the repo to your local machine
-2. ```shell cd repo_directory```
+2. ```shell
+    cd repo_directory
+   ```
 ### Run the backend APIs
-4. ```shell cd snake/backend```
-5. ```shell npm start```
+4. ```shell
+    cd snake/backend
+   ```
+6. ```shell
+    npm start
+   ```
 ### Run the llm APIs
-6. ```shell python llmAPIs.py```
+6. ```shell
+    python llmAPIs.py
+   ```
 7. Now open the extension and interact with your llm
 
 
