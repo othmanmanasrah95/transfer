@@ -91,4 +91,4 @@ Selecting the right local models and the power of `LangChain` you can run the en
 
 
 ## Data Flow
-https://www.figma.com/file/nUaAfW1Laigb9w9ST6AaQL/Untitled?type=whiteboard&node-id=0%3A1&t=IxThvhBrjWTRnbSH-1
+https://www.figma.com/file/nUaAfW1Laigb9w9ST6AaQL/SnakeGPT-Data-Flow?type=whiteboard&node-id=0%3A1&t=YiAwkeg1bdj1WqV1-1
