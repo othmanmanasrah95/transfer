@@ -50,8 +50,7 @@ function sendPrompt(promptData, res) {
       res.status(201).json({
         data: data.Answer,
       });
-      // Log the data to the console
-      console.log(data);
+     
     })
     .catch((error) => {
       console.error(error);

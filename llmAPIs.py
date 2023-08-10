@@ -153,7 +153,7 @@ QA = RetrievalQA.from_chain_type(
 
 app = Flask(__name__)
 
-@app.route('/', methods=['POST','GET'])
+@app.route('/api/convert_to_pdf', methods=['POST','GET'])
 def convert_to_pdf():
     """
     Converts the content from the JSON payload into a PDF file with the id as the filename.
@@ -167,18 +167,14 @@ def convert_to_pdf():
         content_data = request_data.get('content')
         id = request_data.get('id')
 
-        cont_data = {
-            'content': content_data
-        }
-
         # Convert content to PDF
         pdf_file_path = os.path.join('./SOURCE_DOCUMENTS', f'{id}.pdf')
 
         # Save PDF file with id as the filename in "./SOURCE_DOCUMENTS"
         pdfkit.from_string(content_data, pdf_file_path)
 
-        print("convert done !!!")
-        return jsonify(cont_data), 201
+        
+        return jsonify(f"successfully convert content with ID:{id} to PDF "), 201
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -218,7 +214,7 @@ def run_ingest_route():
 
         # If script execution fails, return error message
         if result.returncode != 0:
-            return "Script execution failed: {}".format(result.stderr.decode("utf-8")), 500
+            return "Ingesting Script execution failed: {}".format(result.stderr.decode("utf-8")), 500
         
         # Load vectorstore, retriever, and QA models from persist directory
         DB = Chroma(
@@ -234,7 +230,7 @@ def run_ingest_route():
             retriever=RETRIEVER, 
             return_source_documents=SHOW_SOURCES
         )
-        return "Script executed successfully: "
+        return "Ingesting Script executed successfully: "
     except Exception as e:
         return f"Error occurred:"
 
@@ -266,11 +262,10 @@ def prompt_route():
             prompt_response_dict["Sources"].append(
                 (os.path.basename(str(document.metadata["source"])), str(document.page_content))
             )
-        print(prompt_response_dict)
+        
         return jsonify(prompt_response_dict), 200
         
     else:
-        print("No user prompt received")
         return "No user prompt received", 400
 
 

@@ -104,7 +104,7 @@ async function SaveContent(contentData, res) {
 
 // Function to make API call for converting content to PDF
 async function pdfEndPoint(content_data, id) {
-  const endpoint = 'http://127.0.0.1:5000/';
+  const endpoint = 'http://127.0.0.1:5000/api/convert_to_pdf';
   const sendContent = {
     content: content_data,
     id: id

@@ -127,7 +127,7 @@ The Content API is responsible for managing content-related operations and inter
 
 5. **pdfEndPoint Function:**
    - Asynchronously sends a POST request to convert content to PDF.
-   - Constructs the endpoint URL(convert_to_pdf located in llmAPIs.py) and prepares data to be sent.
+   - Constructs the endpoint URL(/api/convert_to_pdf located in llmAPIs.py) and prepares data to be sent.
    - Handles response and logs success or error messages.
 
 6. **ingestEndPoint Function:**
@@ -152,9 +152,9 @@ The Prompt API is responsible for managing prompt-related operations and communi
    - Calls savePrompt and sendPrompt functions for processing and communication.
    - Responds with the received answer or an error message.
 
-3. **Send Prompt Data to Another API:**
+3. **Send Prompt Data to llm API:**
    - Function: sendPrompt(promptData, res)
-   - Sends a POST request to a specified endpoint with user prompt data.
+   - Sends a POST request to a specified endpoint(/api/prompt_route located in llmAPIs) with user prompt data.
    - Handles response, logs data, and responds with the received answer.
 
 4. **Save Prompt Data:**
