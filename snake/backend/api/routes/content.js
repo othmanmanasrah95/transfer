@@ -70,7 +70,7 @@ async function SaveContent(contentData, res) {
   try {
     // Check if ID exists
     const existingContent = await Content.findById(contentData.content_id);
-    console.log(existingContent)
+    
     if (existingContent) {
       console.log("Content ID already exists");
       result.saveToDB = 'failed';
