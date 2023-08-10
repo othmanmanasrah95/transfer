@@ -21,12 +21,15 @@ export function sendContent(content_id,received_content) {
   }
 
   export async function sendPrompt(content_id, received_prompt) {
-    const promptData = {
-      prompt_data: received_prompt,
-      content_id: content_id,
-    };
-  
+    
     try {
+      if (content_id == null) {
+        throw new NullPointerException("content_id is null");
+    }
+      const promptData = {
+        prompt_data: received_prompt,
+        content_id: content_id,
+      };
       const response = await fetch("http://localhost:3000/prompt/", {
         method: 'POST',
         headers: {
@@ -38,9 +41,16 @@ export function sendContent(content_id,received_content) {
       const data = await response.json();
       return data["data"];
     } catch (error) {
+      if(error instanceof NullPointerException){
+        System.out.println("content_id is null. Error: " + error.getMessage());
+      }
+      else {
       console.error(error);
       throw error;
     }
+  }
+
+    
   }
   
 
