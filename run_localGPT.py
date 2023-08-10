@@ -6,6 +6,7 @@ from auto_gptq import AutoGPTQForCausalLM
 from huggingface_hub import hf_hub_download
 from langchain.chains import RetrievalQA
 from langchain.embeddings import HuggingFaceInstructEmbeddings
+from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.llms import HuggingFacePipeline, LlamaCpp
 
 # from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
