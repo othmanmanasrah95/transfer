@@ -1,4 +1,5 @@
-import { sendPrompt } from "./api.mjs";
+import { sendPromptToLLM } from "./api.mjs";
+import { sendPromptToDB } from "./api.mjs";
 
 
 // when HTML document has been completely parsed,
@@ -45,7 +46,8 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
     if(enteredPrompt!=''){
     responseText.textContent =''
-    var response= await sendPrompt(contentId,enteredPrompt);
+    await sendPromptToDB(contentId,enteredPrompt);
+    var response= await sendPromptToLLM(enteredPrompt);
     console.log(response);
     responseText.textContent=response;
     promptText.value = '';
@@ -63,7 +65,8 @@ document.addEventListener('DOMContentLoaded', function() {
       try {
         if(enteredPrompt!=''){
           responseText.textContent =''
-          var response = await sendPrompt(contentId, enteredPrompt);
+          await sendPromptToDB(contentId,enteredPrompt);
+          var response = await sendPromptToLLM(enteredPrompt);
           console.log(response);
           responseText.textContent = response;
           promptText.value = '';

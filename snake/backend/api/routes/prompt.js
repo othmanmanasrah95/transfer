@@ -24,7 +24,6 @@ router.post('/', (req, res, next) => {
   // Call savePrompt function to save the prompt and associate it with the content
   savePrompt(promptData, res);
   // Call sendPrompt function to send the prompt data to another API endpoint
-  sendPrompt(promptData, res);
 });
 
 // Send prompt data to another API endpoint
@@ -80,8 +79,11 @@ function savePrompt(promptData, res) {
         content.prompts.push(createdPrompt);
 
         // Save the updated content document
-        return content.save();
+       content.save();
       });
+    })
+    .then(() => {
+      res.status(201).json();
     })
     .catch((err) => {
       console.error(err);
