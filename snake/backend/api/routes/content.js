@@ -56,20 +56,28 @@ router.post("/", async (req, res, next) => {
     content_id: req.body.content_id,
     content_data: req.body.content_data,
   };
-  SaveContent(contentData, res);
+  await SaveContent(contentData, res);
 });
-
 
 // Function to save content
 async function SaveContent(contentData, res) {
+  const result = {
+    saveToDB: 'In Hold',
+    convertToPDF: 'In Hold',
+    ingest: 'In Hold'
+  };
+  
   try {
     // Check if ID exists
     const existingContent = await Content.findById(contentData.content_id);
-
+    console.log(existingContent)
     if (existingContent) {
-      return res.status(400).json({
+      console.log("Content ID already exists");
+      result.saveToDB = 'failed';
+      res.status(400).json({
         message: "Content ID already exists",
       });
+      return;
     }
 
     // Create the content document
@@ -81,26 +89,42 @@ async function SaveContent(contentData, res) {
 
     // Save the content document
     await content.save();
-
-    // Call the PDF endpoint
-    await pdfEndPoint(contentData.content_data, contentData.content_id);
-
-    // Call the ingest endpoint
-    await ingestEndPoint();
-
+    console.log("Content created");
+    result.saveToDB = 'successful';
     // Return success response
     res.status(201).json({
       message: "Content created",
       data: contentData,
-    });
+      result: result
+      });
+    // Call the PDF endpoint
+    try {
+      await pdfEndPoint(contentData.content_data, contentData.content_id);
+      console.log("Content converted to PDF successfully");
+      result.convertToPDF = 'successful';
+
+      // Call the ingest endpoint
+      try {
+        await ingestEndPoint();
+        console.log("PDF ingested successfully");
+        result.ingest = 'successful';
+      } catch (ingestError) {
+        console.error("Ingesting didn't work: " + ingestError);
+      }
+    } catch (pdfError) {
+      console.error("Converting didn't work: " + pdfError);
+    }
+
+    
   } catch (err) {
     // Handle errors
+    console.error("Error:", err.message);
     res.status(500).json({
       error: err.message,
+      result: result
     });
   }
 }
-
 
 // Function to make API call for converting content to PDF
 async function pdfEndPoint(content_data, id) {
@@ -122,8 +146,6 @@ async function pdfEndPoint(content_data, id) {
     if (!response.ok) {
       throw new Error('Failed to convert content');
     }
-
-    console.log("convert done");
   } catch (error) {
     console.error("converting didn't work: " + error);
     // Handle any errors
@@ -143,8 +165,6 @@ async function ingestEndPoint() {
       if (!response.ok) {
         throw new Error('Failed to run ingest');
       }
-  
-      console.log("ingest done");
     } catch (error) {
       console.error("ingesting doesn't work: " + error);
       // Handle any errors

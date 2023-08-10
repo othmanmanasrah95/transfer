@@ -10,7 +10,7 @@ const { json } = require('body-parser');
 router.get('/', (req, res, next) => {
   res.status(200).json({
     message: 'Prompt data fetched'
-  });
+  }); 
 });
 
 // Define POST route at the root path '/'

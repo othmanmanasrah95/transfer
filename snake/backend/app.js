@@ -18,7 +18,7 @@ const dbName = 'llm';
 // Connect to the MongoDB database using mongoose.connect
 mongoose.connect(`${url}/${dbName}`, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
-    console.log('Connected to the database');
+    console.log('Connected to the database\n#########################');
     // Perform database operations
   })
   .catch((err) => {
