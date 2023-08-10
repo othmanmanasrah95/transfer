@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Snake Helper Extension</title>
+  <script type="module" src="popup.js"></script>
+  <link rel="stylesheet" type="text/css" href="popup.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Snake Helper</h2>
+    <div class="note">
+      <label for="agree-toggle">Note: The extension will collect data from the current web page!</label>
+    </div>
+    <div class="checkbox-container">
+      <input type="checkbox" id="agree-toggle" name="agree-toggle" checked>
+      <label for="agree-toggle">I agree</label>
+    </div>
+    <div class="input-container">
+      <input type="text" name="prompt_text" id="prompt_text" placeholder="Ask the snake..">
+      <button id="submit_button"><i class="fas fa-paper-plane"></i></button>
+    </div>
+    <h2>Answer:</h2>
+    <div class="answer-container" id="answer-container"></div>
+    <h2>Content:</h2>
+    <div class="content-container" id="content-container"></div>
+  </div>
+</body>
+</html>

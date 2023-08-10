@@ -1,3 +1,4 @@
+![Contribution guidelines for this project](snake/extension/images/snakegpt.png)
 # Snake
 Strategic Neural Analysis and Knowledge Enhancement. 
 Initialize a neural network with pre-trained weights and let all weights be adjusted with the new training.
@@ -5,89 +6,167 @@ Initialize a neural network with pre-trained weights and let all weights be adju
 **Description:** 
 a chrome extension that extracts text from web pages, and answer the user questions depending on the content extracted from web page visited by help of large language model.
 
+# How to run 
+
+### With the extension
+Clone the repo to your local machine
+```shell
+   cd repo_directory
+```
+
+Run the backend APIs
+```shell
+    cd snake/backend
+ ```
+
+ ```shell
+    npm start
+  ```
+
+Run the llm APIs
+```shell
+    python llmAPIs.py
+```
+Now open the extension and interact with your llm
+
+### With the UI
+Run the llm APIs
+```shell
+    python llmAPIs.py
+```
+Run the UI
+```shell
+   cd localGPTUI
+```
+```shell
+    python localGPTUI.py
+```
+The UI will be Running on ```http://127.0.0.1:5111```
 
 ## Extension:
+The Google Chrome extension is a vital component of the project, providing a user-friendly interface for interacting with both the web content and the backend APIs.
 
-- Creating a labeled checkbox to ensure users are aware of data scraping.
+### Functionality
+The extension serves several key functions, enabling seamless interaction between the user, web content, and backend APIs:
 
-- Creating the necessary logic functions and layout of the follwoing components:
+#### 1. Data Scraping:
+* The extension allows users to scrape data from the currently active tab in the Chrome browser. This scraped data is sent to the backend APIs for further processing.
+#### 2. User Prompt Input:
+* A prominent input field in the extension's UI allows users to enter prompts. These prompts are sent to the backend APIs to generate relevant responses.
+#### 3. API Communication:
+* The extension facilitates communication with the backend APIs using HTTP requests. It sends both scraped data and user prompts to their respective API endpoints.
+#### 4. Display of Responses:
+* The extension displays responses received from the backend APIs in a designated answer field. This real-time interaction enables users to quickly view the results of their prompts.
 
-  Prompt: creating a post API that takes input from the user to the backend side with the content related to.
+### Interaction with Backend APIs
+The Chrome extension collaborates closely with the backend APIs to ensure smooth data exchange and response handling:
 
-  Content: sending the extracted content with the unique id to the database.
+* Scraped Data:
+   *  The extension uses HTTP POST requests to send scraped data to the backend API's ```/content``` endpoint.
 
-  Response: return the reposnse back from the llm and displaying on the extension. 
+* User Prompts:
+   * The extension sends user-entered prompts to the backend API's ```/prompt``` endpoint.
 
-
-## LLM:
-
-## 1) OpenAi API version: (Prototype branch)
-Implement the openAI model to get answer for question related to the the context (without fine-tuning).
-- Configuring the openAi model with the API key.
-- Taking the prompt and conetext data from the backend side.
-- Customizing the prompt and openAi parameters.
-- Dividing the content into chunks that fits the maximum tokens for the model.
-- Testing the actual and expected result.
-
-1.1) Disadvantages : 
-- Not an open-source or commercial use for confidential data.
-- Sometimes responses with general answers that are not specific for the context. (depends on the prompt format).
-
-## 2) Snake_LocalGPT version (LocalGPT branch)
-This project was inspired by the original localGPT repo [localGPT] (https://github.com/PromtEngineer/localGPT) and snake repo (https://github.com/khalifima/snake/tree/Prototype).
-
-The features that we have added it to the project:
-Building a Chrome Extension takes the user prompt and content from the page visited.
-1. Saves the content and related prompts into mongo DB.
-2. Converts the content into pdf and stores it in the SOURCE_DOCUMENTS folder.
-3. Ingests the text after each content recieved from the browser which saves the chunks into DB folder. In the (run_ingest_route API) which runs the file called ingest.py.
-4. Answers the question recieved depending on the documents ingested. (Takes too much time on CPU) 
+These interactions enable the extension to act as an intermediary, providing a user-friendly interface while effectively communicating with the backend to process data and generate responses.
 
 
+## SnakeLocalGPT
+1. **Device Configuration:**
+   - The application is set to use the CPU for processing.
+   - Source documents are configured to be displayed as needed.
 
-Future features:
-1. Adding a button click for ingesting process.
+2. **Embeddings and Chroma Database Initialization:**
+   - HuggingFaceEmbeddings instance is initialized using a specified model name.
+   - A Chroma database is created with settings for persistence and embedding functions.
+   - The database is converted into a retriever object.
 
+3. **Model Selection and Configuration:**
+   - Model identifiers (model_id and model_basename) are specified.
+   - PromptTemplate and ConversationBufferMemory instances are initialized.
+   - The Load LLM model function is used to load the model.
 
-## 2.1 Instructions for ingesting your own dataset
+4. **Convert Content to PDF and Save:**
+   - An API route allows for the conversion of content to PDF format.
+   - The content is saved in a specified directory as a PDF file.
 
-Put any and all of your .txt, .pdf, or .csv files into the SOURCE_DOCUMENTS directory
-in the load_documents() function, replace the docs_path with the absolute path of your source_documents directory.
+5. **Run Ingest Process:**
+   - Another API route triggers the ingest process.
+   - The "ingest.py" script is executed with optional arguments.
+   - The Chroma database, retriever, and QA models are loaded from the persist directory.
 
-The current default file types are .txt, .pdf, .csv, and .xlsx, if you want to use any other file type, you will need to convert it to one of the default file types.
-
-It will create an index containing the local vectorstore. Will take time, depending on the size of your documents.
-You can ingest as many documents as you want, and all will be accumulated in the local embeddings database.
-If you want to start from an empty database, delete the `index`.
-
-Note: When you run this for the first time, it will download take time as it has to download the embedding model. In the subseqeunt runs, no data will leave your local enviroment and can be run without internet connection.
-
-
-## 2.2 Ask questions to your documents, locally!
-The LLM REST APIs are in the file called backAPIs (You can change the device_type to cpu or cuda in the code).
-
-In order to ask a questions:
-
-- Lunch the extension on google chrome by loading the unpacked folder.
-- run the backend server for the exetension using "npm start" command at the snake/backend folder.
-- run the backAPIs.py file after choosing the model you want to load: use the "python backAPIs.py " command.
-- ask your question on the exetnsion.
-- be ready for the model answer!
-
+6. **Accept User Prompt and Provide Answer:**
+   - An API route accepts a user prompt.
+   - The QA model processes the prompt and generates an answer.
+   - The answer and source documents used are returned as a JSON response.
 
 
-Note: When you run this for the first time, it will need internet connection to download the model specified at teh backAPIs file. After that you can turn off your internet connection, and the script inference would still work. No data gets out of your local environment.
+## Back-end APIs
+### Content API:
+The Content API is responsible for managing content-related operations and interactions with the Chrome extension and the Local GPT LLM.
+
+1. **Retrieve All Content:**
+   - Route: GET "/"
+   - Fetches all content documents from the database and returns them as a JSON response.
+
+2. **Retrieve Content by ID:**
+   - Route: GET "/:contentId"
+   - Retrieves a specific content document based on the provided content ID and returns it as a JSON response.
+     
+3. **Create New Content:**
+   - Route: POST "/"
+   - Accepts content ID and content data in the request body.
+   - Calls `SaveContent` function to handle content creation and processing.
+
+4. **SaveContent Function:**
+   - Asynchronously saves content to the database.
+   - Checks if the provided content ID already exists; returns an error if it does.
+   - Creates a content document with content ID, content data, and empty prompts array.
+   - Saves the content document to the database.
+   - Calls `pdfEndPoint` and `ingestEndPoint` functions for further processing.
+   - Responds with a success message and the saved content data or an error message.
+
+5. **pdfEndPoint Function:**
+   - Asynchronously sends a POST request to convert content to PDF.
+   - Constructs the endpoint URL(/api/convert_to_pdf located in llmAPIs.py) and prepares data to be sent.
+   - Handles response and logs success or error messages.
+
+6. **ingestEndPoint Function:**
+   - Asynchronously sends a GET request to run ingest processes.
+   - Constructs the endpoint URL(/api/run_ingest located in llmAPIs.py).
+   - Handles response and logs success or error messages.
+
+
+The Content API serves as an intermediary for handling content-related tasks and coordinating interactions between the extension and the LLM.
+
+
+### Prompt API:
+The Prompt API is responsible for managing prompt-related operations and communication between the Chrome extension and the LLM.
+
+1. **Retrieve Prompt Data:**
+   - Route: GET "/"
+   - Returns a JSON response indicating that prompt data has been fetched.
+
+2. **Create New Prompt:**
+   - Route: POST "/"
+   - Accepts prompt data and content ID in the request body.
+   - Calls savePrompt and sendPrompt functions for processing and communication.
+   - Responds with the received answer or an error message.
+
+3. **Send Prompt Data to llm API:**
+   - Function: sendPrompt(promptData, res)
+   - Sends a POST request to a specified endpoint(/api/prompt_route located in llmAPIs) with user prompt data.
+   - Handles response, logs data, and responds with the received answer.
+
+4. **Save Prompt Data:**
+   - Function: savePrompt(promptData, res)
+   - Creates a new prompt document and associates it with the corresponding content.
+   - Saves the prompt and updates the content document.
+   - Handles errors and responds with appropriate messages.
+
+The Prompt API facilitates the creation and communication of prompts between the extension and the LLM, ensuring seamless interactions and data exchange.
 
 
 
-## 2.3 How does it work?
 
-Selecting the right local models and the power of `LangChain` you can run the entire pipeline locally, without any data leaving your environment, and with reasonable performance.
-
-- `ingest.py` uses `LangChain` tools to parse the document and create embeddings locally using `InstructorEmbeddings`. It then stores the result in a local vector database using `Chroma` vector store.
-- `backAPIs.py` uses a local LLM  to understand questions and create answers. The context for the answers is extracted from the local vector store using a similarity search to locate the right piece of context from the docs.
-- You can replace this local LLM with any other LLM from the HuggingFace. Make sure whatever LLM you select is in the HF format.
-
-
-
-
+## Data Flow
+https://www.figma.com/file/nUaAfW1Laigb9w9ST6AaQL/SnakeGPT-Data-Flow?type=whiteboard&node-id=0%3A1&t=YiAwkeg1bdj1WqV1-1

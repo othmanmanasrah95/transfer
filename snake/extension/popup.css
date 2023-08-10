@@ -1,0 +1,109 @@
+body {
+  background-image: url('./images/background.png'); /* Replace with your background image URL */
+  background-size: cover;
+  margin: 20px;
+  font-family: 'Courier New', monospace;
+  color: #73a580;
+}
+
+h2 {
+  text-align: center;
+}
+
+.container {
+  width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #000000;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+.note {
+  margin-bottom: 10px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+label {
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  outline: none;
+  position: relative;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background-color: transparent;
+  border: 2px solid #333;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+input[type="checkbox"]:checked::before {
+  background-color: #333;
+}
+
+.input-container {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+label[for="prompt_text"] {
+  font-size: 16px;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #444;
+  color: #f9f9f9;
+}
+
+#submit_button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  background-color: #73a580;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#submit_button:hover {
+  background-color: #555;
+}
+
+.content-container, .answer-container {
+  margin-top: 20px;
+  background-color: #444;
+  padding: 10px;
+  border-radius: 5px;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  text-align: center;
+
+}
