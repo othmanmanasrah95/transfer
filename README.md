@@ -4,7 +4,8 @@ Strategic Neural Analysis and Knowledge Enhancement.
 Initialize a neural network with pre-trained weights and let all weights be adjusted with the new training.
 
 **Description:** 
-a chrome extension that extracts text from web pages, and answer the user questions depending on the content extracted from web page visited by help of large language model.
+Ask questions to your documents without an internet connection, using the power of LLMs. 100% private, no data leaves your execution environment at any point. You can ingest documents and ask questions without an internet connection!
+by using chrome extension that extracts text from web pages, and answer the user questions depending on the content extracted from web page visited by help of large language model.
 
 # How to run 
 
