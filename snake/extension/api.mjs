@@ -39,9 +39,7 @@ export function sendContent(content_id,received_content) {
         },
         body: JSON.stringify(promptData),
       })
-  //need to be changed according to backend
-      const data = await response.json();
-      return data["data"];
+
     } catch (error) {
       if (error instanceof Error && error.message === "content_id is null") {
         console.log("content_id is null.");
@@ -60,7 +58,7 @@ export function sendContent(content_id,received_content) {
   export async function sendPromptToLLM(received_prompt) {
     try {
       const promptData = {
-        prompt_data: received_prompt,
+        user_prompt: received_prompt,
       };
       const response = await fetch("http://localhost:5000/api/prompt_route", {
         method: 'POST',
@@ -69,8 +67,9 @@ export function sendContent(content_id,received_content) {
         },
         body: JSON.stringify(promptData),
       });
-      console.log("helllllllllo")
+      console.log("helllllllllo");
       const result = await response.json();
+      console.log(result["Answer"]);
       return result["Answer"];
     } catch (error) {
       console.error(error);

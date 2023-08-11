@@ -26,36 +26,7 @@ router.post('/', (req, res, next) => {
   // Call sendPrompt function to send the prompt data to another API endpoint
 });
 
-// Send prompt data to another API endpoint
-function sendPrompt(promptData, res) {
-  // Define the endpoint URL
-  const endpoint = 'http://127.0.0.1:5000/api/prompt_route';
-  // Create the prompt object with user_prompt field using promptData.prompt_data
-  const prompt = {
-    user_prompt: promptData.prompt_data,
-  };
 
-  // Send a POST request to the specified endpoint with the prompt data
-  fetch(endpoint, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(prompt),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      // Respond with the received data
-      res.status(201).json({
-        data: data.Answer,
-      });
-     
-    })
-    .catch((error) => {
-      console.error(error);
-      // Handle any errors
-    });
-}
 
 // Save the prompt and associate it with the content
 function savePrompt(promptData, res) {
