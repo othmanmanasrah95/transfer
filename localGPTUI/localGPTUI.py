@@ -21,7 +21,7 @@ def home_page():
             user_prompt = request.form["user_prompt"]
             print(f"User Prompt: {user_prompt}")
 
-            main_prompt_url = "http://localhost:5000/api/prompt_route"
+            main_prompt_url = "http://localhost:5000/api/prompt_ui_route"
             response = requests.post(main_prompt_url, data={"user_prompt": user_prompt})
             print(response.status_code)  # print HTTP response status code for debugging
             if response.status_code == 200:

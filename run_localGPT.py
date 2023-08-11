@@ -1,5 +1,5 @@
 import logging
-
+from langchain.prompts import PromptTemplate
 import click
 import torch
 from auto_gptq import AutoGPTQForCausalLM
@@ -19,6 +19,8 @@ from transformers import (
     LlamaTokenizer,
     pipeline,
 )
+
+from langchain.memory import ConversationBufferMemory
 
 from constants import CHROMA_SETTINGS, EMBEDDING_MODEL_NAME, PERSIST_DIRECTORY
 
@@ -227,6 +229,8 @@ def main(device_type, show_sources):
     # model_basename = "llama-2-7b-chat.ggmlv3.q4_0.bin"
 
     llm = load_model(device_type, model_id=model_id, model_basename=model_basename)
+
+   
 
     qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True)
     # Interactive questions and answers

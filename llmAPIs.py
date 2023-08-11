@@ -114,22 +114,20 @@ model_id = "TheBloke/Llama-2-7B-Chat-GGML"
 model_basename = "llama-2-7b-chat.ggmlv3.q4_0.bin"
 
 
-
+# Loading the model using the load_model function
+LLM = load_model(device_type=DEVICE_TYPE, model_id=model_id, model_basename=model_basename)
 
 # This is the prompt template structure for LLama2 model
-template = """ [INST] <<SYS>>
-User the following pieces of context only to find answer to the question at the end. If you don't know the answer,\
-just say that you don't know, don't try to make up an answer.
+template = """
+Use only the following pieces of context to find answer to the question at the end. If you don't know the answer,
+just say that you don't know, don't try to make up an answer.\n
 
-<</SYS>>
+{context}\n
 
-{context}
+{history}\n 
 
-{history}
-
-{question}
-
-[/INST]
+Question : {question}
+Helpful Answer:
 """
 
 # Initialize PromptTemplate object named prompt
@@ -137,9 +135,6 @@ prompt = PromptTemplate(input_variables=["history", "context", "question"], temp
 
 # here is the memory buffer to recognize the history for the conversation
 memory = ConversationBufferMemory(input_key="question", memory_key="history")
-
-# Loading the model using the load_model function
-LLM = load_model(device_type=DEVICE_TYPE, model_id=model_id, model_basename=model_basename)
 
 # Creating an instance of RetrievalQA class using the from_chain_type method
 QA = RetrievalQA.from_chain_type(
@@ -228,7 +223,8 @@ def run_ingest_route():
             llm=LLM, 
             chain_type="stuff", 
             retriever=RETRIEVER, 
-            return_source_documents=SHOW_SOURCES
+            return_source_documents=SHOW_SOURCES,
+            chain_type_kwargs={"prompt": prompt, "memory": memory},
         )
         return "Ingesting Script executed successfully: "
     except Exception as e:
@@ -246,6 +242,41 @@ def prompt_route():
 
     global QA
     user_prompt = request.get_json().get("user_prompt")
+
+    if user_prompt:
+        print(f'User Prompt: {user_prompt}')
+        # Get the answer from the chain
+        res = QA(user_prompt)
+        answer, docs = res["result"], res["source_documents"]
+        
+        prompt_response_dict  = {
+            "Prompt": user_prompt,
+            "Answer": answer,
+        }
+        prompt_response_dict["Sources"] = []
+        for document in docs:
+            prompt_response_dict["Sources"].append(
+                (os.path.basename(str(document.metadata["source"])), str(document.page_content))
+            )
+        
+        return jsonify(prompt_response_dict), 200
+        
+    else:
+        return "No user prompt received", 400
+    
+
+
+@app.route("/api/prompt_ui_route", methods=["GET", "POST"])
+def prompt_route():
+    """
+    Accepts a user prompt as a JSON payload.
+    Passes the user prompt to the QA model to get an answer.
+    Returns a JSON response with the user prompt and the answer.
+    Option to print out source documents used in the answer.
+    """
+
+    global QA
+    user_prompt = request.form.get("user_prompt")
 
     if user_prompt:
         print(f'User Prompt: {user_prompt}')
