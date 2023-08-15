@@ -148,6 +148,35 @@ QA = RetrievalQA.from_chain_type(
 
 app = Flask(__name__)
 
+@app.route("/api/delete_source", methods=["GET"])
+def delete_source_route():
+    folder_name = "SOURCE_DOCUMENTS"
+
+    if os.path.exists(folder_name):
+        shutil.rmtree(folder_name)
+
+    os.makedirs(folder_name)
+
+    return jsonify({"message": f"Folder '{folder_name}' successfully deleted and recreated."})
+
+
+@app.route("/api/save_document", methods=["GET", "POST"])
+def save_document_route():
+    if "document" not in request.files:
+        return "No document part", 400
+    file = request.files["document"]
+    if file.filename == "":
+        return "No selected file", 400
+    if file:
+        filename = secure_filename(file.filename)
+        folder_path = "SOURCE_DOCUMENTS"
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+        file_path = os.path.join(folder_path, filename)
+        file.save(file_path)
+        return "File saved successfully", 200
+
+
 @app.route('/api/convert_to_pdf', methods=['POST','GET'])
 def convert_to_pdf():
     """
@@ -267,7 +296,7 @@ def prompt_route():
 
 
 @app.route("/api/prompt_ui_route", methods=["GET", "POST"])
-def prompt_route():
+def prompt_ui_route():
     """
     Accepts a user prompt as a JSON payload.
     Passes the user prompt to the QA model to get an answer.
