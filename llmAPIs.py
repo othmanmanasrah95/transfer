@@ -32,7 +32,7 @@ from constants import CHROMA_SETTINGS, EMBEDDING_MODEL_NAME, PERSIST_DIRECTORY
 
 
 # Set the device type to "cpu"
-DEVICE_TYPE = "cpu"
+DEVICE_TYPE = "cuda" if torch.cuda.is_available() else "cpu"
 
 # Enable showing source documents
 SHOW_SOURCES = True
@@ -96,9 +96,10 @@ RETRIEVER = DB.as_retriever()
 #model_id = "TheBloke/guanaco-7B-HF"
 # model_id = 'NousResearch/Nous-Hermes-13b' # Requires ~ 23GB VRAM.
 # Using STransformers alongside will 100% create OOM on 24GB cards.
+
+#model_id = "meta-llama/Llama-2-7b-chat-hf"
 #LLM = load_model(device_type=DEVICE_TYPE, model_id=model_id)
-#model_id = "TheBloke/Llama-2-7B-Chat-GGML"
-#model_basename = "llama-2-7b-chat.ggmlv3.q4_0.bin"
+
 
 #--------------- GPTQ (quantized) models ---------------#
 # model_id = "TheBloke/Nous-Hermes-13B-GPTQ"
@@ -110,6 +111,7 @@ RETRIEVER = DB.as_retriever()
 # model_basename = "wizardLM-7B-GPTQ-4bit.compat.no-act-order.safetensors"
 # model_id = "TheBloke/WizardLM-7B-uncensored-GPTQ"
 # model_basename = "WizardLM-7B-uncensored-GPTQ-4bit-128g.compat.no-act-order.safetensors"
+
 model_id = "TheBloke/Llama-2-7B-Chat-GGML"
 model_basename = "llama-2-7b-chat.ggmlv3.q4_0.bin"
 

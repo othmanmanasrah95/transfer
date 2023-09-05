@@ -24,7 +24,6 @@ export function sendContent(content_id,received_content) {
   export async function sendPromptToDB(content_id, received_prompt) {
     
     try {
-      console.log(content_id +"      DSAddddddddd")
       if (content_id == null) {
         throw new Error("content_id is null");
       }
@@ -67,7 +66,6 @@ export function sendContent(content_id,received_content) {
         },
         body: JSON.stringify(promptData),
       });
-      console.log("helllllllllo");
       const result = await response.json();
       console.log(result["Answer"]);
       return result["Answer"];
